@@ -4,6 +4,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using MetinGo.ApiModel;
+using MetinGo.Infrastructure.RestApi;
 using Plugin.Geolocator;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
@@ -59,6 +61,11 @@ namespace MetinGo.Views
 				Map.Pins.Remove(e.Pin);
 				await AddMonster();
 			}
+		}
+
+		private async void Button_OnClicked(object sender, EventArgs e)
+		{
+			await new ApiClient().Post<RegistrationRequest>(new RegistrationRequest{Username = "test", Password = "test"});
 		}
 	}
 }
