@@ -9,7 +9,7 @@ using Android.OS;
 
 namespace MetinGo.Droid
 {
-    [Activity(Label = "MetinGo", Icon = "@drawable/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    [Activity(Label = "Metin Go", Icon = "@drawable/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         protected override void OnCreate(Bundle bundle)
@@ -19,9 +19,17 @@ namespace MetinGo.Droid
 
             base.OnCreate(bundle);
 
+			AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+
             global::Xamarin.Forms.Forms.Init(this, bundle);
-            LoadApplication(new App());
+			Xamarin.FormsGoogleMaps.Init(this, bundle);
+			LoadApplication(new App());
         }
-    }
+
+		private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+		{
+			var exception =  e.ExceptionObject as Exception;
+		}
+	}
 }
 
