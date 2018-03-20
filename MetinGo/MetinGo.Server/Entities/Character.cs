@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace MetinGo.Server.Entities
 {
-    public class User
+    public class Character
     {
 	    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 	    [Key]
-		public Guid Id { get; set; }
-		public string Name { get; set; }
-		public string PasswordHash { get; set; }
-		public List<Character> Characters { get; set; }
-    }
+	    public Guid Id { get; set; }
+	    public string Name { get; set; }
+		public Guid UserId { get; set; }
+		public User User { get; set; }
+	}
 }

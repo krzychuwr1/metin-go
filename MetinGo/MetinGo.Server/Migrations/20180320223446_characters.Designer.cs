@@ -11,9 +11,10 @@ using System;
 namespace MetinGo.Server.Migrations
 {
     [DbContext(typeof(MetinGoDbContext))]
-    partial class MetinGoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180320223446_characters")]
+    partial class characters
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

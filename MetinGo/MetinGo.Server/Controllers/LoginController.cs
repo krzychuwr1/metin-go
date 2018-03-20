@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace MetinGo.Server.Controllers
 {
 	[Route("api/"+Endpoints.Login)]
-	public class LoginController
+	public class LoginController : Controller
     {
 	    private readonly IUserService _userService;
 

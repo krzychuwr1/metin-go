@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using MetinGo.Server.Entities;
 using MetinGo.Server.Infrastructure.Database;
+using MetinGo.Server.Infrastructure.Filters;
+using MetinGo.Server.Infrastructure.Session;
 using MetinGo.Server.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -32,10 +34,14 @@ namespace MetinGo.Server
 	        services.AddDbContext<MetinGoDbContext>(options => options.UseSqlServer(connection));
 	        services.AddScoped<IUserService, UserService>();
 	        services.AddScoped<IRepository<User>, Repository<User>>();
-        }
+	        services.AddScoped<ISessionManager, SessionManager>();
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+	        services.AddScoped<UserContextFilter>();
+	        services.AddScoped<CharacterContextFilter>();
+		}
+
+		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {

@@ -8,5 +8,6 @@ namespace MetinGo.ApiModel
     {
 	    public const string Registration = "Registration";
 	    public const string Login = "Login";
+	    public const string Character = "Character";
     }
 }
