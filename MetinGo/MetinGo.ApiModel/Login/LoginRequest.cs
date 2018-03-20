@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace MetinGo.ApiModel
+﻿namespace MetinGo.ApiModel.Login
 {
-    public class RegistrationRequest
+    public class LoginRequest
     {
 	    public string Username { get; set; }
 	    public string Password { get; set; }

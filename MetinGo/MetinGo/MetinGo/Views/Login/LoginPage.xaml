@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MetinGo.Views.Login.LoginPage"
+             xmlns:viewModelLocator="clr-namespace:MetinGo.Infrastructure.ViewModelLocator;assembly=MetinGo"
+             BindingContext="{x:Static viewModelLocator:ViewModelLocator.LoginPageViewModel}"
+             Title="Login"
+             >
+    <ContentPage.Content>
+        <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+        <Entry Placeholder="Login" Text="{Binding Username}" VerticalOptions="Center" HorizontalOptions="Center"></Entry>
+        <Entry Placeholder="Password" IsPassword="True"  Text="{Binding Password}" VerticalOptions="Center" HorizontalOptions="Center"></Entry>
+        <Button Text="Login" Command="{Binding LoginCommand}"></Button>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

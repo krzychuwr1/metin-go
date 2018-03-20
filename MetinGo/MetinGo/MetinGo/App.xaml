@@ -12,10 +12,23 @@
             <Color x:Key="MediumGrayTextColor">#4d4d4d</Color>
             <Color x:Key="LightTextColor">#999999</Color>
 
+
+            <x:Double x:Key="EntryWidth">200</x:Double>
+            <x:Double x:Key="ButtonWidth">180</x:Double>
+
             <Style TargetType="NavigationPage">
                 <Setter Property="BarBackgroundColor" Value="{StaticResource Primary}" />
                 <Setter Property="BarTextColor" Value="White" />
             </Style>
+            
+            <Style TargetType="Entry">
+                <Setter Property="WidthRequest" Value="{StaticResource EntryWidth}" />
+            </Style>
+            
+            <Style TargetType="Button">
+                <Setter Property="WidthRequest" Value="{StaticResource ButtonWidth}"></Setter>
+            </Style>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>

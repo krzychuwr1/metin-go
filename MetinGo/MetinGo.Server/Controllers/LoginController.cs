@@ -3,26 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MetinGo.ApiModel;
-using MetinGo.ApiModel.Registration;
+using MetinGo.ApiModel.Login;
 using MetinGo.Server.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MetinGo.Server.Controllers
 {
-	[Route("api/"+Endpoints.Registration)]
-	public class RegistrationController
+	[Route("api/"+Endpoints.Login)]
+	public class LoginController
     {
 	    private readonly IUserService _userService;
 
-	    public RegistrationController(IUserService userService)
+	    public LoginController(IUserService userService)
 	    {
 		    _userService = userService;
 	    }
 
 	    [HttpPost]
-	    public void Post([FromBody]RegistrationRequest request)
+	    public LoginResponse Post([FromBody]LoginRequest request)
 	    {
-		    _userService.CreateUser(request.Username, request.Password);
+		    var user =_userService.LoginUser(request.Username, request.Password);
+		    return new LoginResponse() {Username = user.Name, UserId = user.Id};
 	    }
     }
 }

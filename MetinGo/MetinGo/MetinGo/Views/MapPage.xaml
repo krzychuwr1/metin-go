@@ -6,11 +6,7 @@
              Title="Map">
     <ContentPage.Content>
         <StackLayout>
-            <!--<Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />-->
             <googleMaps:Map x:Name="Map"></googleMaps:Map>
-            <Button Text="Registration test" Clicked="Button_OnClicked"></Button>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -28,7 +28,7 @@ namespace MetinGo.Server
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-	        var connection = @"Server=localhost\\SQLEXPRESS;Database=MetinGo;Trusted_Connection=True;ConnectRetryCount=0";
+	        var connection = @"Server=localhost\SQLSTANDARD;Database=MetinGo;Trusted_Connection=False;ConnectRetryCount=0;User ID=sa;Password=Qwerty54123!";
 	        services.AddDbContext<MetinGoDbContext>(options => options.UseSqlServer(connection));
 	        services.AddScoped<IUserService, UserService>();
 	        services.AddScoped<IRepository<User>, Repository<User>>();
