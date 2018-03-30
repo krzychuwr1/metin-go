@@ -18,7 +18,7 @@ namespace MetinGo.Infrastructure.RestApi
 		    {
 			    var json = JsonConvert.SerializeObject(request);
 			    var content = new StringContent(json, Encoding.UTF8, "application/json");
-			    await client.PostAsync("http://192.168.0.104/MetinGoServer/api/" + endpoint, content);
+			    await client.PostAsync("http://localhost/MetinGo.Server/api/" + endpoint, content);
 		    }
 	    }
 
@@ -31,7 +31,7 @@ namespace MetinGo.Infrastructure.RestApi
 		    {
 			    var json = JsonConvert.SerializeObject(request);
 			    var requestContent = new StringContent(json, Encoding.UTF8, "application/json");
-			    var response = await client.PostAsync("http://192.168.0.104/MetinGoServer/api/" + endpoint, requestContent);
+			    var response = await client.PostAsync("http://localhost/MetinGo.Server/api/" + endpoint, requestContent);
 			    var responseContent = await response.Content.ReadAsStringAsync();
 			    var responseDeserialized = JsonConvert.DeserializeObject<TResponse>(responseContent);
 			    return responseDeserialized;

@@ -37,7 +37,7 @@ namespace MetinGo.Views
 
 		private async Task AddMonster()
 		{
-			var position = await CrossGeolocator.Current.GetPositionAsync(TimeSpan.FromSeconds(1));
+			var position = await CrossGeolocator.Current.GetPositionAsync(TimeSpan.FromSeconds(10));
 			var assembly = typeof(MapPage).GetTypeInfo().Assembly;
 			var stream = assembly.GetManifestResourceStream("MetinGo.Images.Dziki_Pies.png");
 			var icon = BitmapDescriptorFactory.FromStream(stream);
@@ -51,6 +51,8 @@ namespace MetinGo.Views
 					IsVisible = true,
 					Icon = icon
 				});
+
+            
 		}
 
 		private async void Map_InfoWindowClicked(object sender, InfoWindowClickedEventArgs e)
