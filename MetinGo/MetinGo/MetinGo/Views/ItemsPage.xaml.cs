@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using MetinGo.Infrastructure.Navigation;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -21,7 +21,8 @@ namespace MetinGo.Views
         public ItemsPage()
         {
             InitializeComponent();
-
+            NavigationPage.SetHasBackButton(this, false);
+            NavigationPage.SetMenu(this, new Menu());
             BindingContext = viewModel = new ItemsViewModel();
         }
 

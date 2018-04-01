@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 
 using MetinGo.Models;
+using MetinGo.Services;
 using MetinGo.Views;
 
 namespace MetinGo.ViewModels
@@ -14,6 +15,9 @@ namespace MetinGo.ViewModels
     {
         public ObservableCollection<Item> Items { get; set; }
         public Command LoadItemsCommand { get; set; }
+
+        public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>() ?? new MockDataStore();
+
 
         public ItemsViewModel()
         {

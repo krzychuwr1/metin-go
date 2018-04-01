@@ -8,7 +8,16 @@ namespace MetinGo.Infrastructure.Navigation
 {
     public interface INavigationManager
     {
-		Task SetCurrentPage(Page page);
-	    Task SetCurrentPage<TPage>() where TPage : Page, new();
+        INavigation Navigation { get; }
+
+        Page CurrentPage { get; }
+
+        Task SetCurrentPage(Page page);
+
+        Task SetCurrentPage<TPage>() where TPage : Page, new();
+
+        void SetNewDetailPage(Page page);
+
+        Task PushAsync(Page page);
     }
 }

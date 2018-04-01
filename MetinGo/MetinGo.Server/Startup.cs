@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using MetinGo.Server.Entities;
 using MetinGo.Server.Infrastructure.Database;
 using MetinGo.Server.Infrastructure.Filters;
@@ -9,6 +10,7 @@ using MetinGo.Server.Infrastructure.Session;
 using MetinGo.Server.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,15 +32,17 @@ namespace MetinGo.Server
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-	        var connection = @"Server=localhost\SQLSTANDARD;Database=MetinGo;Trusted_Connection=False;ConnectRetryCount=0;User ID=sa;Password=Qwerty54123!";
-	        services.AddDbContext<MetinGoDbContext>(options => options.UseSqlServer(connection));
+            var connection = @"Server=localhost\MSSQLENTERPRISE;Database=MetinGo;Trusted_Connection=False;ConnectRetryCount=0;User ID=sa;Password=Qwerty54123!";
+            services.AddDbContext<MetinGoDbContext>(options => options.UseSqlServer(connection));
 	        services.AddScoped<IUserService, UserService>();
-	        services.AddScoped<IRepository<User>, Repository<User>>();
+            services.AddScoped<ICharacterService, CharacterService>();
 	        services.AddScoped<ISessionManager, SessionManager>();
-
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddAutoMapper();
 	        services.AddScoped<UserContextFilter>();
 	        services.AddScoped<CharacterContextFilter>();
-		}
+            services.AddScoped<PositionContextFilter>();
+        }
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env)

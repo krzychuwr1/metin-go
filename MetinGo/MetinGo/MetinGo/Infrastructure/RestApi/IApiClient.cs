@@ -9,5 +9,7 @@ namespace MetinGo.Infrastructure.RestApi
     {
 	    Task Post<TRequest>(TRequest request, string endpoint);
 	    Task<TResponse> Post<TRequest, TResponse>(TRequest request, string endpoint);
+        Task<TResponse> Get<TResponse>(string endpoint);
+        Task<TResponse> Get<TRequest, TResponse>(TRequest request, string endpoint);
     }
 }

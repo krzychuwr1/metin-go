@@ -20,9 +20,10 @@ namespace MetinGo.Server.Controllers
 	    }
 
 	    [HttpPost]
-	    public void Post([FromBody]RegistrationRequest request)
+	    public async Task<IActionResult> Post([FromBody]RegistrationRequest request)
 	    {
-		    _userService.CreateUser(request.Username, request.Password);
+		    await _userService.CreateUser(request.Username, request.Password);
+	        return Ok();
 	    }
     }
 }

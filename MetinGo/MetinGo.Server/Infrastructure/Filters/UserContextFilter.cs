@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace MetinGo.Server.Infrastructure.Filters
 {
-	public class UserContextFilter : IActionFilter
+	public class UserContextFilter : IAsyncActionFilter
 	{
 		private readonly ISessionManager _sessionManager;
 
@@ -17,17 +17,13 @@ namespace MetinGo.Server.Infrastructure.Filters
 			_sessionManager = sessionManager;
 		}
 
-		public void OnActionExecuting(ActionExecutingContext context)
-		{
-			if (context.HttpContext.Request.Headers.TryGetValue(RequestHeaders.UserId, out var userId))
-			{
-				_sessionManager.SetUser(Guid.Parse(userId.First()), context.HttpContext);
-			}
-		}
-
-		public void OnActionExecuted(ActionExecutedContext context)
-		{
-			
-		}
+	    public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
+	    {
+	        if (context.HttpContext.Request.Headers.TryGetValue(RequestHeaders.UserId, out var userId))
+	        {
+	            await _sessionManager.SetUser(Guid.Parse(userId.First()), context.HttpContext);
+	        }
+	        await next();
+	    }
 	}
 }

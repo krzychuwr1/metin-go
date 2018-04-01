@@ -10,7 +10,9 @@ using MetinGo.Infrastructure.Navigation;
 using MetinGo.Infrastructure.RestApi;
 using MetinGo.Infrastructure.Session;
 using MetinGo.Models.User;
+using MetinGo.Services;
 using MetinGo.Views;
+using MetinGo.Views.Popup;
 using Xamarin.Forms;
 
 namespace MetinGo.ViewModels.Login
@@ -21,7 +23,8 @@ namespace MetinGo.ViewModels.Login
 	    private readonly ISessionManager _sessionManager;
 	    private readonly IAlertService _alertService;
 	    private readonly INavigationManager _navigationManager;
-	    private string _username;
+        private readonly ILoginManager _loginManager;
+        private string _username;
 	    private string _password;
 
 	    public string Username
@@ -44,23 +47,30 @@ namespace MetinGo.ViewModels.Login
 		    }
 	    }
 
-	    public LoginPageViewModel(IApiClient apiClient, ISessionManager sessionManager, IAlertService alertService, INavigationManager navigationManager)
+	    public LoginPageViewModel(IApiClient apiClient, ISessionManager sessionManager, IAlertService alertService, INavigationManager navigationManager, ILoginManager loginManager)
 	    {
 		    _apiClient = apiClient;
 		    _sessionManager = sessionManager;
 		    _alertService = alertService;
 		    _navigationManager = navigationManager;
-		    LoginCommand = new Command(Login);
+	        _loginManager = loginManager;
+	        LoginCommand = new Command(Login);
 	    }
 
 	    private async void Login()
 	    {
-		    var response= await _apiClient.Post<LoginRequest, LoginResponse>(new LoginRequest {Username = Username, Password = Password}, Endpoints.Login);
+	        LoginResponse response = null;
+	        using (var indicator = new ActionActivityIndicator("Logging in..."))
+	        {
+	            await indicator.Show();
+	            response = await _apiClient.Post<LoginRequest, LoginResponse>(new LoginRequest { Username = Username, Password = Password }, Endpoints.Login);
+            }
 		    if (response != null)
 		    {
 			    _sessionManager.User = new User {Id = response.UserId, Name = Username};
-			    await _alertService.DisplayAlert("Success", "Login Successful", "OK");
-			    await _navigationManager.SetCurrentPage<MainPage>();
+		        await App.Current.SavePropertiesAsync();
+			    //await _alertService.DisplayAlert("Success", "Login Successful", "OK");
+		        await _loginManager.HandleLogin();
 		    }
 	    }
 

@@ -6,8 +6,8 @@ using Xamarin.Forms.Xaml;
 namespace MetinGo.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class MainPage : TabbedPage
-	{
+	public partial class MainPage : MasterDetailPage
+    {
 		public MainPage ()
 		{
 			InitializeComponent ();

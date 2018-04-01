@@ -6,30 +6,32 @@ using System.Text;
 using System.Threading.Tasks;
 using MetinGo.Server.Entities;
 using MetinGo.Server.Infrastructure.Database;
+using Microsoft.EntityFrameworkCore;
 
 namespace MetinGo.Server.Services
 {
     public class UserService : IUserService
-	{
-		private readonly IRepository<User> _userRepository;
+    {
+        private readonly MetinGoDbContext _db;
 
-		public UserService(IRepository<User> userRepository)
+		public UserService(MetinGoDbContext db)
 		{
-			_userRepository = userRepository;
+		    _db = db;
 		}
 
-		public User LoginUser(string username, string password)
+		public async Task<User> LoginUser(string username, string password)
 		{
 			var hash = GetHash(password);
-			return _userRepository.FindBy(u => u.Name == username && u.PasswordHash == hash).First();
+			return await _db.Users.FirstOrDefaultAsync(u => u.Name == username && u.PasswordHash == hash);
 		}
 
-		public User CreateUser(string username, string password)
+		public async Task<User> CreateUser(string username, string password)
 		{
 			var hash = GetHash(password);
-			_userRepository.Add(new User{Name=username, PasswordHash = hash});
-			_userRepository.Save();
-			return _userRepository.FindBy(u => u.Name == username).First();
+		    var user = new User {Name = username, PasswordHash = hash};
+		    _db.Add(user);
+			await _db.SaveChangesAsync();
+		    return user;
 		}
 
 	    public string GetHash(string password)

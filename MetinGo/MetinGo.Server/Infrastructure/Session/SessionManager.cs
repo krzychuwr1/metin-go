@@ -10,29 +10,38 @@ namespace MetinGo.Server.Infrastructure.Session
 {
     public class SessionManager : ISessionManager
 	{
-	    private readonly IRepository<User> _userRepository;
-	    private readonly IRepository<Character> _characteRepository;
+	    private readonly MetinGoDbContext _db;
+	    private readonly IHttpContextAccessor _httpContextAccessor;
 
-	    public SessionManager(IRepository<User> userRepository, IRepository<Character> characteRepository)
+	    public SessionManager(MetinGoDbContext db, IHttpContextAccessor httpContextAccessor)
 	    {
-		    _userRepository = userRepository;
-		    _characteRepository = characteRepository;
+	        _db = db;
+	        _httpContextAccessor = httpContextAccessor;
 	    }
 
-	    public void SetUser(Guid userId, HttpContext context)
+	    public async Task SetUser(Guid userId, HttpContext context)
 	    {
-		    var user = _userRepository.FindBy(u => u.Id == userId).First();
-			context.Items.Add(nameof(User), user);
+	        var user = await _db.FindAsync<User>(userId);
+			context.Items.Add(nameof(Entities.User), user);
 	    }
 
-	    public User GetUser(HttpContext context) => context.Items[nameof(User)] as User;
-
-	    public void SetCharacter(Guid characterId, HttpContext context)
+	    public async Task SetPosition(double latitude, double longitude, HttpContext context)
 	    {
-		    var character = _characteRepository.FindBy(u => u.Id == characterId).First();
+	        if (CurrentCharacter == null)
+	            throw new ApplicationException("Trying to set position without character context");
+
+	        CurrentCharacter.Latitude = latitude;
+	        CurrentCharacter.Longitude = longitude;
+	    }
+
+	    public User CurrentUser => _httpContextAccessor.HttpContext.Items[nameof(Entities.User)] as User;
+
+	    public async Task SetCharacter(Guid characterId, HttpContext context)
+	    {
+	        var character = await _db.FindAsync<Character>(characterId);
 		    context.Items.Add(nameof(Character), character);
 	    }
 
-	    public Character GetCharacter(HttpContext context) => context.Items[nameof(Character)] as Character;
+	    public Character CurrentCharacter => _httpContextAccessor.HttpContext.Items[nameof(Character)] as Character;
 	}
 }

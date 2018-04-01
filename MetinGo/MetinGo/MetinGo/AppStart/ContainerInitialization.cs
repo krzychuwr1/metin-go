@@ -20,6 +20,8 @@ namespace MetinGo.AppStart
 		    container.RegisterType<IAlertService, AlertService>();
 		    container.RegisterType<INavigationManager, NavigationManager>();
 		    container.RegisterType<IAppStarter, AppStarter>();
+	        container.RegisterType<ILoginManager, LoginManager>();
+	        container.RegisterType<IRestApiHeadersService, RestApiHeadersService>();
 		    return container;
 	    }
     }

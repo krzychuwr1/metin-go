@@ -8,5 +8,7 @@ namespace MetinGo.ApiModel
     {
 	    public const string UserId = "UserId";
 	    public const string CharacterId = "CharacterId";
+        public const string Longitude = "Longitude";
+        public const string Latitude = "Latitude";
     }
 }

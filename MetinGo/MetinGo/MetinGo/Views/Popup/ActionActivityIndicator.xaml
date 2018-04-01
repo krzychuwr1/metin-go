@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+                 x:Class="MetinGo.Views.Popup.ActionActivityIndicator"
+                 Title="Activity Popup">
+    <ContentView x:Name="content">
+        <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
+            <StackLayout Padding="20" HorizontalOptions="FillAndExpand" VerticalOptions="Center">
+                <ActivityIndicator HorizontalOptions="FillAndExpand" VerticalOptions="Center"
+                                   IsVisible="True" IsEnabled="True"/>
+                <Label x:Name="Message" TextColor="{StaticResource LightTextColor}" FontSize="19" HorizontalOptions="Center" />
+            </StackLayout>
+        </StackLayout>
+    </ContentView>
+</pages:PopupPage>

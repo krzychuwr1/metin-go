@@ -29,18 +29,18 @@ namespace MetinGo.Server.Controllers
 
 		[HttpGet]
 		[ServiceFilter(typeof(UserContextFilter))]
-		public IEnumerable<Character> Get()
+		public IActionResult Get()
 		{
-			var characters = _characterService.GetUserCharacters(_sessionManager.GetUser(HttpContext).Id);
+			var characters = _characterService.GetCurrentUserCharacters();
 
-			return characters.Select(c => new Character{Id = c.Id, Name = c.Name});
+			return Ok(characters.Select(c => new Character{Id = c.Id, Name = c.Name}).ToList());
 		}
 
 		[HttpPost]
 		[ServiceFilter(typeof(UserContextFilter))]
-		public Character Post(CreateCharacterRequest request)
+		public async Task<Character> Post([FromBody]CreateCharacterRequest request)
 		{
-			var character = _characterService.CreateCharacter(_sessionManager.GetUser(HttpContext).Id, request.Name);
+			var character = await _characterService.CreateCharacter(_sessionManager.CurrentUser.Id, request.Name);
 			return new Character {Id = character.Id, Name = character.Name};
 		}
 	}

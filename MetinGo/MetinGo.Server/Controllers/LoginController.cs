@@ -20,10 +20,10 @@ namespace MetinGo.Server.Controllers
 	    }
 
 	    [HttpPost]
-	    public LoginResponse Post([FromBody]LoginRequest request)
+	    public async Task<IActionResult> Post([FromBody]LoginRequest request)
 	    {
-		    var user =_userService.LoginUser(request.Username, request.Password);
-		    return new LoginResponse() {Username = user.Name, UserId = user.Id};
+		    var user = await _userService.LoginUser(request.Username, request.Password);
+		    return Ok(new LoginResponse{Username = user.Name, UserId = user.Id});
 	    }
     }
 }
