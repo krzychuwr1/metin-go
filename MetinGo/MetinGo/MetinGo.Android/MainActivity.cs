@@ -32,20 +32,20 @@ namespace MetinGo.Droid
 			var exception =  e.ExceptionObject as Exception;
 		}
 
-        public override void OnBackPressed()
-        {
-            if (Xamarin.Forms.Application.Current.MainPage is MasterDetailPage masterDetail)
-            {
-                if (!(masterDetail.Detail is NavigationPage navigationPage && navigationPage.Pages.First() is MapPage))
-                {
-                    masterDetail.Detail = new NavigationPage(new MapPage());
-                }
-                else
-                    base.OnBackPressed();
-            }
-            else
-                base.OnBackPressed();
-        }
+        //public override void OnBackPressed()
+        //{
+        //    if (Xamarin.Forms.Application.Current.MainPage is MasterDetailPage masterDetail)
+        //    {
+        //        if (!(masterDetail.Detail is NavigationPage navigationPage && navigationPage.Pages.First() is MapPage))
+        //        {
+        //            masterDetail.Detail = new NavigationPage(new MapPage());
+        //        }
+        //        else
+        //            base.OnBackPressed();
+        //    }
+        //    else
+        //        base.OnBackPressed();
+        //}
         
 	}
 }

@@ -4,6 +4,7 @@ using System.Text;
 using System.Windows.Input;
 using MetinGo.Infrastructure.Navigation;
 using MetinGo.Views;
+using MetinGo.Views.Login;
 using Xamarin.Forms;
 
 namespace MetinGo.ViewModels.Map
@@ -16,6 +17,13 @@ namespace MetinGo.ViewModels.Map
         {
             _navigationManager = navigationManager;
             OpenCharactersCommand = new Command(OpenCharacters);
+            LogoutCommand = new Command(Logout);
+        }
+
+        private async void Logout()
+        {
+            App.Current.Properties.Clear();
+            await _navigationManager.SetCurrentPage<StartPage>();
         }
 
         private void OpenCharacters()
@@ -24,5 +32,7 @@ namespace MetinGo.ViewModels.Map
         }
 
         public ICommand OpenCharactersCommand { get; }
+
+        public ICommand LogoutCommand { get; }
     }
 }

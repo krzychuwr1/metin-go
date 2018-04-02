@@ -9,5 +9,6 @@ namespace MetinGo.Server.Services
 	{
 		IEnumerable<Character> GetCurrentUserCharacters();
 		Task<Character> CreateCharacter(Guid userId, string characterName);
+	    IEnumerable<Character> GetNearbyCharacters();
 	}
 }

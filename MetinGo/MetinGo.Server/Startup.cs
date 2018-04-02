@@ -37,6 +37,7 @@ namespace MetinGo.Server
 	        services.AddScoped<IUserService, UserService>();
             services.AddScoped<ICharacterService, CharacterService>();
 	        services.AddScoped<ISessionManager, SessionManager>();
+            services.AddScoped<IMonsterService, MonsterService>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddAutoMapper();
 	        services.AddScoped<UserContextFilter>();

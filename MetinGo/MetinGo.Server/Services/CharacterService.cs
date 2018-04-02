@@ -22,10 +22,15 @@ namespace MetinGo.Server.Services
 	    public IEnumerable<Character> GetCurrentUserCharacters() => _db.Characters.Where(c => c.UserId == _sessionManager.CurrentUser.Id);
 		public async Task<Character> CreateCharacter(Guid userId, string characterName)
 		{
-			var character = new Character{Name = characterName, UserId = userId};
+			var character = new Character{Name = characterName, UserId = userId, Level = 1};
 		    _db.Add(character);
 		    await _db.SaveChangesAsync();
 			return character;
 		}
+
+	    public IEnumerable<Character> GetNearbyCharacters()
+	        => _db.Characters.Where(c =>
+	            Math.Abs(c.Latitude - _sessionManager.CurrentCharacter.Latitude) < 0.01 &&
+	            Math.Abs(c.Longitude - _sessionManager.CurrentCharacter.Longitude) < 0.01);
 	}
 }

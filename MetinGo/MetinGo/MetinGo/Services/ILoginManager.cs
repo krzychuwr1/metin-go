@@ -13,6 +13,7 @@ using MetinGo.Views.Login;
 using MetinGo.Views.Popup;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
+using Unity;
 using Xamarin.Forms;
 
 namespace MetinGo.Services
@@ -39,7 +40,7 @@ namespace MetinGo.Services
         {
             if (_sessionManager.Character?.Id != null)
             {
-                await _navigationManager.SetCurrentPage(new NavigationPage(new MapPage()));
+                await _navigationManager.SetCurrentPage(new NavigationPage(App.Current.Container.Resolve<MapPage>()));
             }
             else
             {
@@ -53,14 +54,18 @@ namespace MetinGo.Services
                         await _apiClient.Post(new CreateCharacterRequest {Name = result}, Endpoints.Character);
                         await _navigationManager.CurrentPage.DisplayAlert("Character created",
                             "Character created", "OK");
-                        await _navigationManager.SetCurrentPage(new NavigationPage(new MapPage()));
+
+                        characters = await _apiClient.Get<List<Character>>(Endpoints.Character);
+                        _sessionManager.Character = new Models.Character.Character() { Id = characters[0].Id, Name = characters[0].Name};
+                        await _navigationManager.SetCurrentPage(new NavigationPage(App.Current.Container.Resolve<MapPage>()));
                         await PopupNavigation.RemovePageAsync(entryPopup, true);
                     };
                     await PopupNavigation.PushAsync(entryPopup);
                 }
                 else
                 {
-                    await _navigationManager.SetCurrentPage(new NavigationPage(new MapPage()));
+                    _sessionManager.Character = new Models.Character.Character() { Id = characters[0].Id, Name = characters[0].Name };
+                    await _navigationManager.SetCurrentPage(new NavigationPage(App.Current.Container.Resolve<MapPage>()));
                 }
             }
         }

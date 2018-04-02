@@ -13,15 +13,15 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MetinGo.Server.Controllers
 {
-    [Route("api/" + Endpoints.Monster)]
-    public class MonsterController : Controller
+    [Route("api/" + Endpoints.NearbyCharacters)]
+    public class NearbyCharactersController : Controller
     {
-        private readonly IMonsterService _monsterService;
+        private readonly ICharacterService _characterService;
         private readonly IMapper _mapper;
 
-        public MonsterController(IMonsterService monsterService, IMapper mapper)
+        public NearbyCharactersController(ICharacterService characterService, IMapper mapper)
         {
-            _monsterService = monsterService;
+            _characterService = characterService;
             _mapper = mapper;
         }
 
@@ -29,10 +29,10 @@ namespace MetinGo.Server.Controllers
         [ServiceFilter(typeof(UserContextFilter))]
         [ServiceFilter(typeof(CharacterContextFilter))]
         [ServiceFilter(typeof(PositionContextFilter))]
-        public async Task<IActionResult> Get()
+        public IActionResult Get()
         {
-            var monsters = await _monsterService.GetOrGenerateNearbyMonsters();
-            var apiMonsters = _mapper.Map<List<Monster>>(monsters);
+            var monsters = _characterService.GetNearbyCharacters();
+            var apiMonsters = _mapper.Map<List<Character>>(monsters);
             return Ok(apiMonsters);
         }
     }

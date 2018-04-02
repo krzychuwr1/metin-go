@@ -68,9 +68,7 @@ namespace MetinGo.ViewModels.Login
 		    if (response != null)
 		    {
 			    _sessionManager.User = new User {Id = response.UserId, Name = Username};
-		        await App.Current.SavePropertiesAsync();
-			    //await _alertService.DisplayAlert("Success", "Login Successful", "OK");
-		        await _loginManager.HandleLogin();
+                await _loginManager.HandleLogin();
 		    }
 	    }
 

@@ -4,6 +4,7 @@ using System.Text;
 using System.Windows.Input;
 using MetinGo.Infrastructure.Navigation;
 using MetinGo.Views;
+using MetinGo.Views.Login;
 using Xamarin.Forms;
 
 namespace MetinGo.ViewModels
@@ -15,8 +16,14 @@ namespace MetinGo.ViewModels
         public MenuPageViewModel(INavigationManager navigationManager)
         {
             _navigationManager = navigationManager;
-            OpenMapCommand = new Command(OpenMap);
             OpenCharactersCommand = new Command(OpenCharacters);
+            LogoutCommand = new Command(Logout);
+        }
+
+        private void Logout()
+        {
+            App.Current.Properties.Clear();
+            App.Current.MainPage = new StartPage();
         }
 
         private void OpenCharacters()
@@ -24,13 +31,7 @@ namespace MetinGo.ViewModels
             _navigationManager.SetNewDetailPage(new ItemsPage());
         }
 
-        private void OpenMap()
-        {
-            _navigationManager.SetNewDetailPage(new MapPage());
-        }
-
-        public ICommand OpenMapCommand { get; }
-
         public ICommand OpenCharactersCommand { get; }
+        public ICommand LogoutCommand { get; }
     }
 }

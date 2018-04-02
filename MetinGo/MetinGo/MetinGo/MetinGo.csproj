@@ -6,10 +6,12 @@
 
   <ItemGroup>
     <None Remove="Images\Dziki_Pies.png" />
+    <None Remove="Images\ninja.png" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Images\Dziki_Pies.png" />
+    <EmbeddedResource Include="Images\ninja.png" />
   </ItemGroup>
 
   <ItemGroup>

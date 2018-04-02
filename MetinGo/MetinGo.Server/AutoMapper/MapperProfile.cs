@@ -12,6 +12,7 @@ namespace MetinGo.Server.AutoMapper
         public DomainProfile()
         {
             CreateMap<Monster, ApiModel.Monster.Monster>();
+            CreateMap<Character, ApiModel.Character.Character>();
         }
     }
 }

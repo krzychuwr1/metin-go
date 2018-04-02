@@ -48,9 +48,9 @@ namespace MetinGo.Server.Services
             {
                 var monster = new Monster
                 {
-                    Level  = character.Level + _random.Next(-2, 2),
+                    Level  = Math.Max(1, character.Level + _random.Next(-2, 2)),
                     Longitude = character.Longitude + _random.NextDouble(-0.001, 0.001),
-                    Latitude = character.Longitude + _random.NextDouble(-0.001, 0.001)
+                    Latitude = character.Latitude + _random.NextDouble(-0.001, 0.001)
                 };
                 monsters.Add(monster);
             }

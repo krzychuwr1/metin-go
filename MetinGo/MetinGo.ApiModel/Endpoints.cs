@@ -10,5 +10,6 @@ namespace MetinGo.ApiModel
 	    public const string Login = "Login";
 	    public const string Character = "Character";
         public const string Monster = "Monster";
+        public const string NearbyCharacters = "NearbyCharacters";
     }
 }

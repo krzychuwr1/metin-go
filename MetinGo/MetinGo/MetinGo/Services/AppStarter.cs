@@ -27,6 +27,7 @@ namespace MetinGo.Services
 	    {
 	        if (_sessionManager.User?.Id != null)
 	        {
+	            await _navigationManager.SetCurrentPage<StartPage>();
 	            await _loginManager.HandleLogin();
 	        }
 		    else
