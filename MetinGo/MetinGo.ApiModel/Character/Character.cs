@@ -11,5 +11,7 @@ namespace MetinGo.ApiModel.Character
         public int Level { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }
+        public int Experience { get; set; }
+        public int StatPoints { get; set; }
     }
 }

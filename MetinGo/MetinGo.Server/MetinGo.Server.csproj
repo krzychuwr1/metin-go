@@ -22,6 +22,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MetinGo.ApiModel\MetinGo.ApiModel.csproj" />
+    <ProjectReference Include="..\MetinGo.Common\MetinGo.Common.csproj" />
+    <ProjectReference Include="..\MetinGo.Fight\MetinGo.Fight.csproj" />
   </ItemGroup>
 
 </Project>
