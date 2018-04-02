@@ -17,6 +17,7 @@
   <ItemGroup>
     <PackageReference Include="LiveXAML" Version="2.1.22" />
     <PackageReference Include="Newtonsoft.Json" Version="8.0.3" />
+    <PackageReference Include="Plugin.Permissions" Version="2.2.1" />
     <PackageReference Include="Rg.Plugins.Popup" Version="1.0.4" />
     <PackageReference Include="Unity" Version="5.7.3" />
     <PackageReference Include="Xam.Plugin.Geolocator" Version="4.2.0" />

@@ -8,9 +8,11 @@ using MetinGo.ApiModel;
 using MetinGo.ApiModel.Character;
 using MetinGo.ApiModel.Monster;
 using MetinGo.ApiModel.Registration;
+using MetinGo.Infrastructure.Permission;
 using MetinGo.Infrastructure.RestApi;
 using MetinGo.Infrastructure.Session;
 using Plugin.Geolocator;
+using Plugin.Permissions.Abstractions;
 using Unity;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
@@ -24,44 +26,44 @@ namespace MetinGo.Views
 		private readonly Random _rand;
 	    private readonly ISessionManager _sessionManager;
 	    private readonly IApiClient _apiClient;
+	    private readonly IPermissionManager _permissionManager;
 
-	    public MapPage(ISessionManager sessionManager, IApiClient apiClient)
+	    public MapPage(ISessionManager sessionManager, IApiClient apiClient, IPermissionManager permissionManager)
 		{
 		    _sessionManager = sessionManager;
 		    _apiClient = apiClient;
+		    _permissionManager = permissionManager;
 		    InitializeComponent();
 			_rand = new Random();
 		}
 
         protected override async void OnAppearing()
         {
+            await _permissionManager.CheckAndAskIfNeeded("Location Permission is needed to play", "Cannot play without permission", Permission.Location);
             base.OnAppearing();
-            Map.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(_sessionManager.Latitude ?? 0, _sessionManager.Longitude ?? 0), new Distance(500)));
+            Map.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(_sessionManager.Latitude ?? 0, _sessionManager.Longitude ?? 0), new Distance(100)));
             Map.InfoWindowClicked += Map_InfoWindowClicked;
             Map.MyLocationEnabled = true;
 
-            while (true)
+            while (this.IsVisible)
             {
-                if (this.IsVisible)
+                var position = await CrossGeolocator.Current.GetPositionAsync(TimeSpan.FromSeconds(300));
+                _sessionManager.Latitude = position.Latitude;
+                _sessionManager.Longitude = position.Longitude;
+                Map.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(position.Latitude, position.Longitude), new Distance(100)));
+                var monsters = await _apiClient.Get<List<Monster>>(Endpoints.Monster);
+                Map.Pins.Clear();
+                foreach (var monster in monsters)
                 {
-                    var position = await CrossGeolocator.Current.GetPositionAsync(TimeSpan.FromSeconds(5));
-                    _sessionManager.Latitude = position.Latitude;
-                    _sessionManager.Longitude = position.Longitude;
-                    Map.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(position.Latitude, position.Longitude), new Distance(500)));
-                    var monsters = await _apiClient.Get<List<Monster>>(Endpoints.Monster);
-                    Map.Pins.Clear();
-                    foreach (var monster in monsters)
-                    {
-                        AddMonster(monster);
-                    }
-
-                    var players = await _apiClient.Get<List<Character>>(Endpoints.NearbyCharacters);
-                    foreach (var player in players.Where(p => p.Id != _sessionManager.Character.Id))
-                    {
-                        AddPlayer(player);
-                    }
+                    AddMonster(monster);
                 }
-                await Task.Delay(30000);
+
+                var players = await _apiClient.Get<List<Character>>(Endpoints.NearbyCharacters);
+                foreach (var player in players.Where(p => p.Id != _sessionManager.Character.Id))
+                {
+                    AddPlayer(player);
+                }
+                await Task.Delay(15000);
             }
         }
 

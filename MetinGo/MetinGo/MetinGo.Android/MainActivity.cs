@@ -7,6 +7,7 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using MetinGo.Views;
+using Plugin.Permissions;
 using Xamarin.Forms;
 
 namespace MetinGo.Droid
@@ -24,13 +25,20 @@ namespace MetinGo.Droid
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
 			Xamarin.FormsGoogleMaps.Init(this, bundle);
-			LoadApplication(new App());
+            Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity = this;
+            LoadApplication(new App());
         }
 
 		private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
 		{
 			var exception =  e.ExceptionObject as Exception;
 		}
+
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
+        {
+            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
 
         //public override void OnBackPressed()
         //{
@@ -46,7 +54,7 @@ namespace MetinGo.Droid
         //    else
         //        base.OnBackPressed();
         //}
-        
-	}
+
+    }
 }
 

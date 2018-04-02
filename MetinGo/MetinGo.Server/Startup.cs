@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using MetinGo.Fight;
 using MetinGo.Server.Entities;
 using MetinGo.Server.Infrastructure.Database;
 using MetinGo.Server.Infrastructure.Filters;
@@ -38,6 +40,9 @@ namespace MetinGo.Server
             services.AddScoped<ICharacterService, CharacterService>();
 	        services.AddScoped<ISessionManager, SessionManager>();
             services.AddScoped<IMonsterService, MonsterService>();
+            services.AddScoped<IFightService, FightService>();
+            services.AddScoped<IFightSimulator, FightSimulator>();
+            services.AddScoped<IFightProcessor, FightProcessor>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddAutoMapper();
 	        services.AddScoped<UserContextFilter>();
@@ -48,6 +53,10 @@ namespace MetinGo.Server
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            var cultureInfo = new CultureInfo("en-US");
+
+            CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+            CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
 using MetinGo.Infrastructure.Navigation;
@@ -25,6 +26,10 @@ namespace MetinGo.Services
 
 	    public async Task Start()
 	    {
+	        var currentCulture = new CultureInfo("en-US");
+	        CultureInfo.CurrentCulture = currentCulture;
+            CultureInfo.CurrentUICulture = currentCulture;
+	        currentCulture.NumberFormat.NumberDecimalSeparator = ".";
 	        if (_sessionManager.User?.Id != null)
 	        {
 	            await _navigationManager.SetCurrentPage<StartPage>();

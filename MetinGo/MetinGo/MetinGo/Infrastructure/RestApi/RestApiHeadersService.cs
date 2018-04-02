@@ -17,10 +17,10 @@ namespace MetinGo.Infrastructure.RestApi
         public void AddHeaders(HttpClient client)
         {
             if (_sessionManager.Latitude != null)
-                client.DefaultRequestHeaders.Add(RequestHeaders.Latitude, _sessionManager.Latitude.ToString());
+                client.DefaultRequestHeaders.Add(RequestHeaders.Latitude, _sessionManager.Latitude.ToString().Replace(',', '.'));
 
             if (_sessionManager.Longitude != null)
-                client.DefaultRequestHeaders.Add(RequestHeaders.Longitude, _sessionManager.Longitude.ToString());
+                client.DefaultRequestHeaders.Add(RequestHeaders.Longitude, _sessionManager.Longitude.ToString().Replace(',', '.'));
 
             if (_sessionManager.User?.Id != null)
                 client.DefaultRequestHeaders.Add(RequestHeaders.UserId, _sessionManager.User.Id.ToString());
