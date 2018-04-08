@@ -56,7 +56,8 @@ namespace MetinGo.Services
                             "Character created", "OK");
 
                         characters = await _apiClient.Get<List<Character>>(Endpoints.Character);
-                        _sessionManager.Character = new Models.Character.Character() { Id = characters[0].Id, Name = characters[0].Name};
+                        var character = characters[0];
+                        _sessionManager.Character = new Models.Character.Character() { Id = character.Id, Name = character.Name, Level = character.Level, Experience = character.Experience};
                         await _navigationManager.SetCurrentPage(new NavigationPage(App.Current.Container.Resolve<MapPage>()));
                         await PopupNavigation.RemovePageAsync(entryPopup, true);
                     };
@@ -64,7 +65,8 @@ namespace MetinGo.Services
                 }
                 else
                 {
-                    _sessionManager.Character = new Models.Character.Character() { Id = characters[0].Id, Name = characters[0].Name };
+                    var character = characters[0];
+                    _sessionManager.Character = new Models.Character.Character { Id = character.Id, Name = character.Name, Level = character.Level, Experience = character.Experience};
                     await _navigationManager.SetCurrentPage(new NavigationPage(App.Current.Container.Resolve<MapPage>()));
                 }
             }

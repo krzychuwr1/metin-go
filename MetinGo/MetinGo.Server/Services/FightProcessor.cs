@@ -25,6 +25,9 @@ namespace MetinGo.Server.Services
             var expNeeded = _levelExperienceCalculator.GetFullExpOnLevel(currentCharacter.Level + 1);
             if (currentCharacter.Experience >= expNeeded)
                 currentCharacter.Level += 1;
+
+            if (fight.PlayerWon)
+                fight.Monster.IsAlive = false;
         }
     }
 }

@@ -2,23 +2,32 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Input;
+using MetinGo.ApiModel.Monster;
 using MetinGo.Infrastructure.Navigation;
+using MetinGo.Infrastructure.Session;
+using MetinGo.Models.Character;
 using MetinGo.Views;
 using MetinGo.Views.Login;
 using Xamarin.Forms;
 
 namespace MetinGo.ViewModels.Map
 {
-    public class MapPageViewModel : BaseViewModel
+    public class MapPageViewModel : ObservableObject
     {
         private readonly INavigationManager _navigationManager;
+        private readonly ISessionManager _sessionManager;
 
-        public MapPageViewModel(INavigationManager navigationManager)
+        public MapPageViewModel(INavigationManager navigationManager, ISessionManager sessionManager)
         {
             _navigationManager = navigationManager;
+            _sessionManager = sessionManager;
             OpenCharactersCommand = new Command(OpenCharacters);
             LogoutCommand = new Command(Logout);
         }
+
+        public int Level => _sessionManager.Character.Level;
+        public int Experience => _sessionManager.Character.Experience;
+        public string CharacterName => _sessionManager.Character.Name;
 
         private async void Logout()
         {
@@ -34,5 +43,12 @@ namespace MetinGo.ViewModels.Map
         public ICommand OpenCharactersCommand { get; }
 
         public ICommand LogoutCommand { get; }
+
+        public void RefreshCharacter()
+        {
+            OnPropertyChanged(nameof(Level));
+            OnPropertyChanged(nameof(CharacterName));
+            OnPropertyChanged(nameof(Experience));
+        }
     }
 }

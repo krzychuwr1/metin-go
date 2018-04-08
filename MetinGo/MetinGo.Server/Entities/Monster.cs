@@ -18,5 +18,6 @@ namespace MetinGo.Server.Entities
         public double Latitude { get; set; }
         public double Longitude { get; set; }
         public MonsterType MonsterType { get; set; }
+        public bool IsAlive { get; set; }
     }
 }

@@ -4,6 +4,8 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using PCLAppConfig;
+using PCLAppConfig.Infrastructure;
 
 namespace MetinGo.Infrastructure.RestApi
 {
@@ -26,7 +28,7 @@ namespace MetinGo.Infrastructure.RestApi
                 _headersService.AddHeaders(client);
 			    var json = JsonConvert.SerializeObject(request);
 			    var content = new StringContent(json, Encoding.UTF8, "application/json");
-			    await client.PostAsync("http://192.168.0.101/MetinGo.Server/api/" + endpoint, content);
+		        await client.PostAsync(ConfigurationManager.AppSettings["ApiUrl"] + endpoint, content);
 		    }
 	    }
 
@@ -40,7 +42,7 @@ namespace MetinGo.Infrastructure.RestApi
 		        _headersService.AddHeaders(client);
                 var json = JsonConvert.SerializeObject(request);
 			    var requestContent = new StringContent(json, Encoding.UTF8, "application/json");
-			    var response = await client.PostAsync("http://192.168.0.101/MetinGo.Server/api/" + endpoint, requestContent);
+			    var response = await client.PostAsync(ConfigurationManager.AppSettings["ApiUrl"] + endpoint, requestContent);
 			    var responseContent = await response.Content.ReadAsStringAsync();
 			    var responseDeserialized = JsonConvert.DeserializeObject<TResponse>(responseContent);
 			    return responseDeserialized;
@@ -54,7 +56,7 @@ namespace MetinGo.Infrastructure.RestApi
             using (var client = new HttpClient())
             {
                 _headersService.AddHeaders(client);
-                var response = await client.GetAsync("http://192.168.0.101/MetinGo.Server/api/" + endpoint);
+                var response = await client.GetAsync(ConfigurationManager.AppSettings["ApiUrl"] + endpoint);
                 var responseContent = await response.Content.ReadAsStringAsync();
                 var responseDeserialized = JsonConvert.DeserializeObject<TResponse>(responseContent);
                 return responseDeserialized;
@@ -71,7 +73,7 @@ namespace MetinGo.Infrastructure.RestApi
                 var queryString = request.GetQueryString();
                 _headersService.AddHeaders(client);
                 var json = JsonConvert.SerializeObject(request);
-                var response = await client.GetAsync("http://192.168.0.101/MetinGo.Server/api/" + endpoint + queryString);
+                var response = await client.GetAsync(ConfigurationManager.AppSettings["ApiUrl"] + endpoint + queryString);
                 var responseContent = await response.Content.ReadAsStringAsync();
                 var responseDeserialized = JsonConvert.DeserializeObject<TResponse>(responseContent);
                 return responseDeserialized;

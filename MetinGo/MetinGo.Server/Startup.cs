@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using MetinGo.Common;
 using MetinGo.Fight;
 using MetinGo.Server.Entities;
 using MetinGo.Server.Infrastructure.Database;
@@ -36,7 +37,8 @@ namespace MetinGo.Server
             services.AddMvc();
             var connection = @"Server=localhost\MSSQLENTERPRISE;Database=MetinGo;Trusted_Connection=False;ConnectRetryCount=0;User ID=sa;Password=Qwerty54123!";
             services.AddDbContext<MetinGoDbContext>(options => options.UseSqlServer(connection));
-	        services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ILevelExperienceCalculator, LevelExperienceCalculator>();
+            services.AddScoped<IUserService, UserService>();
             services.AddScoped<ICharacterService, CharacterService>();
 	        services.AddScoped<ISessionManager, SessionManager>();
             services.AddScoped<IMonsterService, MonsterService>();

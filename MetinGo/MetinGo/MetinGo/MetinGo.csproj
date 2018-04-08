@@ -5,11 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="app.config" />
     <None Remove="Images\Dziki_Pies.png" />
     <None Remove="Images\ninja.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="app.config" />
     <EmbeddedResource Include="Images\Dziki_Pies.png" />
     <EmbeddedResource Include="Images\ninja.png" />
   </ItemGroup>
@@ -17,6 +19,7 @@
   <ItemGroup>
     <PackageReference Include="LiveXAML" Version="2.1.22" />
     <PackageReference Include="Newtonsoft.Json" Version="8.0.3" />
+    <PackageReference Include="PCLAppConfig" Version="0.3.4" />
     <PackageReference Include="Plugin.Permissions" Version="2.2.1" />
     <PackageReference Include="Rg.Plugins.Popup" Version="1.0.4" />
     <PackageReference Include="Unity" Version="5.7.3" />

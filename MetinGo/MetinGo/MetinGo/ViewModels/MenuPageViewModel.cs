@@ -9,7 +9,7 @@ using Xamarin.Forms;
 
 namespace MetinGo.ViewModels
 {
-    public class MenuPageViewModel : BaseViewModel
+    public class MenuPageViewModel : ObservableObject
     {
         private readonly INavigationManager _navigationManager;
 

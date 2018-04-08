@@ -5,12 +5,10 @@ using Xamarin.Forms;
 
 namespace MetinGo.ViewModels
 {
-    public class AboutViewModel : BaseViewModel
+    public class AboutViewModel : ObservableObject
     {
         public AboutViewModel()
         {
-            Title = "About";
-
             OpenWebCommand = new Command(() => Device.OpenUri(new Uri("https://xamarin.com/platform")));
         }
 

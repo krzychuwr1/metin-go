@@ -11,7 +11,7 @@ using MetinGo.Views;
 
 namespace MetinGo.ViewModels
 {
-    public class ItemsViewModel : BaseViewModel
+    public class ItemsViewModel : ObservableObject
     {
         public ObservableCollection<Item> Items { get; set; }
         public Command LoadItemsCommand { get; set; }
@@ -21,7 +21,6 @@ namespace MetinGo.ViewModels
 
         public ItemsViewModel()
         {
-            Title = "Browse";
             Items = new ObservableCollection<Item>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
 
@@ -35,10 +34,6 @@ namespace MetinGo.ViewModels
 
         async Task ExecuteLoadItemsCommand()
         {
-            if (IsBusy)
-                return;
-
-            IsBusy = true;
 
             try
             {
@@ -52,10 +47,6 @@ namespace MetinGo.ViewModels
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
-            }
-            finally
-            {
-                IsBusy = false;
             }
         }
     }

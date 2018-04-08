@@ -16,12 +16,19 @@
         <ToolbarItem Order="Primary" Icon="Fight.png" Text="Fights" Command="{Binding OpenFightsCommand}" />
         <ToolbarItem x:Name="Characters" Order="Secondary" Text="Select Character" Command="{Binding OpenCharactersCommand}" />
         <ToolbarItem Order="Secondary" Text="Logout" Command="{Binding LogoutCommand}" />
-
-
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>
-            <!--<Label Text="Map here"></Label>-->
+            <Grid Padding="0,5,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label Text="{Binding CharacterName}" FontAttributes="Bold" Grid.Column="0" HorizontalOptions="Center" />
+                <Label Text="{Binding Level, StringFormat='Level: {0}'}" FontAttributes="Bold" Grid.Column="1" HorizontalOptions="Center" />
+                <Label Text="{Binding Experience, StringFormat='Experience: {0}'}" FontAttributes="Bold" Grid.Column="2" HorizontalOptions="Center" />
+            </Grid>
             <googleMaps:Map x:Name="Map"></googleMaps:Map>
         </StackLayout>
     </ContentPage.Content>

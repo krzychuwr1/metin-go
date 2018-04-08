@@ -35,7 +35,7 @@ namespace MetinGo.Server.Controllers
         [ServiceFilter(typeof(UserContextFilter))]
         [ServiceFilter(typeof(CharacterContextFilter))]
         [ServiceFilter(typeof(PositionContextFilter))]
-        public async Task<IActionResult> Post(FightRequest request)
+        public async Task<IActionResult> Post([FromBody]FightRequest request)
         {
             var fightResult = await _fightService.Fight(request.MonsterId);
             _fightProcessor.ProcessFight(fightResult);

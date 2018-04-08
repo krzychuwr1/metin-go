@@ -7,6 +7,7 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using MetinGo.Views;
+using PCLAppConfig;
 using Plugin.Permissions;
 using Xamarin.Forms;
 

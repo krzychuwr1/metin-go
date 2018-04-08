@@ -6,11 +6,13 @@ using System.Text;
 using System.Threading.Tasks;
 using MetinGo.ApiModel;
 using MetinGo.ApiModel.Character;
+using MetinGo.ApiModel.Fight;
 using MetinGo.ApiModel.Monster;
 using MetinGo.ApiModel.Registration;
 using MetinGo.Infrastructure.Permission;
 using MetinGo.Infrastructure.RestApi;
 using MetinGo.Infrastructure.Session;
+using MetinGo.ViewModels.Map;
 using Plugin.Geolocator;
 using Plugin.Permissions.Abstractions;
 using Unity;
@@ -28,6 +30,8 @@ namespace MetinGo.Views
 	    private readonly IApiClient _apiClient;
 	    private readonly IPermissionManager _permissionManager;
 
+        private MapPageViewModel ViewModel => BindingContext as MapPageViewModel;
+
 	    public MapPage(ISessionManager sessionManager, IApiClient apiClient, IPermissionManager permissionManager)
 		{
 		    _sessionManager = sessionManager;
@@ -35,14 +39,14 @@ namespace MetinGo.Views
 		    _permissionManager = permissionManager;
 		    InitializeComponent();
 			_rand = new Random();
-		}
+		    Map.InfoWindowClicked += Map_InfoWindowClicked;
+        }
 
         protected override async void OnAppearing()
         {
             await _permissionManager.CheckAndAskIfNeeded("Location Permission is needed to play", "Cannot play without permission", Permission.Location);
             base.OnAppearing();
             Map.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(_sessionManager.Latitude ?? 0, _sessionManager.Longitude ?? 0), new Distance(100)));
-            Map.InfoWindowClicked += Map_InfoWindowClicked;
             Map.MyLocationEnabled = true;
 
             while (this.IsVisible)
@@ -103,38 +107,39 @@ namespace MetinGo.Views
 	            });
         }
 
-        private async Task AddMonster()
-        {
-            var position = await CrossGeolocator.Current.GetPositionAsync(TimeSpan.FromSeconds(10));
-            var assembly = typeof(MapPage).GetTypeInfo().Assembly;
-            var stream = assembly.GetManifestResourceStream("MetinGo.Images.Dziki_Pies.png");
-            var icon = BitmapDescriptorFactory.FromStream(stream);
-
-            var monsterPosition = new Position(position.Latitude + (_rand.NextDouble() - 0.5) / 100, position.Longitude + (_rand.NextDouble() - 0.5) / 100);
-            Map.Pins.Add(
-                new Pin
-                {
-                    Label = "Dziki pies",
-                    Position = monsterPosition,
-                    IsVisible = true,
-                    Icon = icon
-                });
-
-
-        }
-
         private async void Map_InfoWindowClicked(object sender, InfoWindowClickedEventArgs e)
         {
-            if (e.Pin.Tag is Monster)
+            if (e.Pin.Tag is Monster monster)
             {
                 var attack = await App.Current.MainPage.DisplayAlert("Dziki pies", "Czy chcesz zaatakować dzikiego psa?", "TAK", "NIE");
                 if (attack)
                 {
-                    await App.Current.MainPage.DisplayAlert("Zwycięstwo!", "Otrzymałeś 5 pkt doświadczenia", "OK");
-                    Map.Pins.Remove(e.Pin);
-                    await AddMonster();
+                    var response = await _apiClient.Post<FightRequest, FightResponse>(new FightRequest() {MonsterId = monster.Id}, Endpoints.Fight);
+                    if (response.PlayerWon)
+                    {
+                        await App.Current.MainPage.DisplayAlert("Zwycięstwo!", $"Otrzymałeś {response.Experience} pkt doświadczenia", "OK");
+                        if (response.LevelAfterFight > _sessionManager.Character.Level)
+                        {
+                            await App.Current.MainPage.DisplayAlert("Level up!", $"Osiągnąłeś poziom {response.LevelAfterFight}", "OK");
+                        }
+                        Map.Pins.Remove(e.Pin);
+                    }
+                    else
+                    {
+                        await App.Current.MainPage.DisplayAlert("Porażka!", $"Utraciłeś {-response.Experience} pkt doświadczenia", "OK");
+                    }
+                    SaveFightResult(response);
                 }
             }
+        }
+
+        private void SaveFightResult(FightResponse response)
+        {
+            var character = _sessionManager.Character;
+            character.Level = response.LevelAfterFight;
+            character.Experience = character.Experience + response.Experience;
+            _sessionManager.Character = character;
+            ViewModel.RefreshCharacter();
         }
     }
 }

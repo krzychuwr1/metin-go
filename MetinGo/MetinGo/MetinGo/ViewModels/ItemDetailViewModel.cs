@@ -4,12 +4,11 @@ using MetinGo.Models;
 
 namespace MetinGo.ViewModels
 {
-    public class ItemDetailViewModel : BaseViewModel
+    public class ItemDetailViewModel : ObservableObject
     {
         public Item Item { get; set; }
         public ItemDetailViewModel(Item item = null)
         {
-            Title = item?.Text;
             Item = item;
         }
     }

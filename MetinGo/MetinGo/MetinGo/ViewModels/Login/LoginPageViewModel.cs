@@ -17,7 +17,7 @@ using Xamarin.Forms;
 
 namespace MetinGo.ViewModels.Login
 {
-    public class LoginPageViewModel : BaseViewModel
+    public class LoginPageViewModel : ObservableObject
     {
 	    private readonly IApiClient _apiClient;
 	    private readonly ISessionManager _sessionManager;

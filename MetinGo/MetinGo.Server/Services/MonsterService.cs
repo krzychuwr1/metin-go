@@ -28,7 +28,7 @@ namespace MetinGo.Server.Services
             var monstersCount = await _db.Monsters.Where(m => 
                     Math.Abs(m.Latitude - character.Latitude) < 0.001 && 
                     Math.Abs(m.Longitude - character.Longitude) < 0.001 && 
-                    Math.Abs(m.Level - character.Level) < 5)
+                    Math.Abs(m.Level - character.Level) < 5 && m.IsAlive)
                 .CountAsync();
 
             var monstersToGenerateAmount = Math.Max(0, 5 - monstersCount);
@@ -38,7 +38,7 @@ namespace MetinGo.Server.Services
             return await _db.Monsters.Where(m =>
                 Math.Abs(m.Latitude - character.Latitude) < 0.001 &&
                 Math.Abs(m.Longitude - character.Longitude) < 0.001 &&
-                Math.Abs(m.Level - character.Level) < 5).ToListAsync();
+                Math.Abs(m.Level - character.Level) < 5 && m.IsAlive).ToListAsync();
         }
 
         private async Task<IEnumerable<Monster>> GenerateMonsters(int amount, Character character)
@@ -50,7 +50,8 @@ namespace MetinGo.Server.Services
                 {
                     Level  = Math.Max(1, character.Level + _random.Next(-2, 2)),
                     Longitude = character.Longitude + _random.NextDouble(-0.001, 0.001),
-                    Latitude = character.Latitude + _random.NextDouble(-0.001, 0.001)
+                    Latitude = character.Latitude + _random.NextDouble(-0.001, 0.001),
+                    IsAlive = true
                 };
                 monsters.Add(monster);
             }

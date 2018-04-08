@@ -10,7 +10,7 @@ using Xamarin.Forms;
 
 namespace MetinGo.ViewModels.Login
 {
-    public class RegistrationPageViewModel : BaseViewModel
+    public class RegistrationPageViewModel : ObservableObject
     {
 	    private readonly IApiClient _apiClient;
 	    private readonly IAlertService _alertService;
