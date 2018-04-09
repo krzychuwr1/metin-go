@@ -12,9 +12,10 @@ using System;
 namespace MetinGo.Server.Migrations
 {
     [DbContext(typeof(MetinGoDbContext))]
-    partial class MetinGoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180409193105_stats")]
+    partial class stats
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,9 +59,15 @@ namespace MetinGo.Server.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int>("Attack");
+
                     b.Property<Guid>("CharacterId");
 
+                    b.Property<int>("Defence");
+
                     b.Property<int>("Experience");
+
+                    b.Property<int>("Hp");
 
                     b.Property<Guid>("MonsterId");
 

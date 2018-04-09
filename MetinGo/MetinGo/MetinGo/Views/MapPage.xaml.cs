@@ -9,6 +9,7 @@ using MetinGo.ApiModel.Character;
 using MetinGo.ApiModel.Fight;
 using MetinGo.ApiModel.Monster;
 using MetinGo.ApiModel.Registration;
+using MetinGo.Common;
 using MetinGo.Infrastructure.Permission;
 using MetinGo.Infrastructure.RestApi;
 using MetinGo.Infrastructure.Session;
@@ -62,7 +63,7 @@ namespace MetinGo.Views
                     AddMonster(monster);
                 }
 
-                var players = await _apiClient.Get<List<Character>>(Endpoints.NearbyCharacters);
+                var players = await _apiClient.Get<List<ApiModel.Character.Character>>(Endpoints.NearbyCharacters);
                 foreach (var player in players.Where(p => p.Id != _sessionManager.Character.Id))
                 {
                     AddPlayer(player);
@@ -71,7 +72,7 @@ namespace MetinGo.Views
             }
         }
 
-	    private void AddPlayer(Character player)
+	    private void AddPlayer(ApiModel.Character.Character player)
 	    {
 	        var assembly = typeof(MapPage).GetTypeInfo().Assembly;
 	        var stream = assembly.GetManifestResourceStream("MetinGo.Images.ninja.png");
@@ -92,19 +93,34 @@ namespace MetinGo.Views
 	    private void AddMonster(Monster monster)
 	    {
 	        var assembly = typeof(MapPage).GetTypeInfo().Assembly;
-	        var stream = assembly.GetManifestResourceStream("MetinGo.Images.Dziki_Pies.png");
-	        var icon = BitmapDescriptorFactory.FromStream(stream);
+	        var wildDogIcon = BitmapDescriptorFactory.FromStream(assembly.GetManifestResourceStream("MetinGo.Images.Dziki_Pies.png"));
+            var hungryWolfIcon = BitmapDescriptorFactory.FromStream(assembly.GetManifestResourceStream("MetinGo.Images.Glodny_Wilk.png"));
 
 	        var monsterPosition = new Position(monster.Latitude, monster.Longitude);
-	        Map.Pins.Add(
-	            new Pin
-	            {
-                    Tag = monster,
-	                Label = $"Dziki pies lv:{monster.Level}",
-	                Position = monsterPosition,
-	                IsVisible = true,
-	                Icon = icon
-	            });
+            if (monster.MonsterType == MonsterType.WildDog)
+	        {
+	            Map.Pins.Add(
+	                new Pin
+	                {
+	                    Tag = monster,
+	                    Label = $"Dziki pies lv:{monster.Level}",
+	                    Position = monsterPosition,
+	                    IsVisible = true,
+	                    Icon = wildDogIcon
+	                });
+            }
+            else
+            {
+                Map.Pins.Add(
+                    new Pin
+                    {
+                        Tag = monster,
+                        Label = $"Głodny wilk lv:{monster.Level}",
+                        Position = monsterPosition,
+                        IsVisible = true,
+                        Icon = hungryWolfIcon
+                    });
+            }
         }
 
         private async void Map_InfoWindowClicked(object sender, InfoWindowClickedEventArgs e)

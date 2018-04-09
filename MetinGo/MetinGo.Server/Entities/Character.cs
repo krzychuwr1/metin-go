@@ -20,5 +20,8 @@ namespace MetinGo.Server.Entities
         public double Longitude { get; set; }
         public int Experience { get; set; }
         public int StatPoints { get; set; }
+        public int BaseAttack { get; set; }
+        public int BaseDefence { get; set; }
+        public int BaseMaxHP { get; set; }
     }
 }

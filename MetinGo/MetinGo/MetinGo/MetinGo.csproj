@@ -7,12 +7,14 @@
   <ItemGroup>
     <None Remove="app.config" />
     <None Remove="Images\Dziki_Pies.png" />
+    <None Remove="Images\Glodny_Wilk.png" />
     <None Remove="Images\ninja.png" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="app.config" />
     <EmbeddedResource Include="Images\Dziki_Pies.png" />
+    <EmbeddedResource Include="Images\Glodny_Wilk.png" />
     <EmbeddedResource Include="Images\ninja.png" />
   </ItemGroup>
 
@@ -30,6 +32,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\MetinGo.ApiModel\MetinGo.ApiModel.csproj" />
+    <ProjectReference Include="..\..\MetinGo.Common\MetinGo.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -51,6 +54,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Views\Character\CharacterStatsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\Login\LoginPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>

@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MetinGo.Views.Character.CharacterStatsPage"
+             xmlns:viewModelLocator="clr-namespace:MetinGo.Infrastructure.ViewModelLocator;assembly=MetinGo"
+             xmlns:xamlExtension="clr-namespace:MetinGo.Infrastructure.XamlExtension;assembly=MetinGo"
+             BindingContext="{x:Static viewModelLocator:ViewModelLocator.CharacterStatsPageViewModel}"
+             Title="Character">
+    <ContentPage.Content>
+        <Grid Padding="0, 10, 0, 0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="5*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="3*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Image Source="{xamlExtension:ImageResource MetinGo.Images.ninja.png}" Grid.ColumnSpan="2" Grid.Column="1" />
+            <Label Text="Name:" Grid.Row="1" Grid.Column="1" />
+            <Label Text="{Binding Character.Name}" Grid.Row="1" Grid.Column="2" />
+            <Label Text="Level:" Grid.Row="2" Grid.Column="1" />
+            <Label Text="{Binding Character.Level}" Grid.Row="2" Grid.Column="2" />
+            <Label Text="Attack:" Grid.Row="3" Grid.Column="1" />
+            <Label Text="{Binding Character.BaseAttack}" Grid.Row="3" Grid.Column="2" />
+            <Label Text="Defence:" Grid.Row="4" Grid.Column="1" />
+            <Label Text="{Binding Character.BaseDefence}" Grid.Row="4" Grid.Column="2" />
+            <Label Text="Max HP:" Grid.Row="5" Grid.Column="1" />
+            <Label Text="{Binding Character.BaseMaxHP}" Grid.Row="5" Grid.Column="2" />
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

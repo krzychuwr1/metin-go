@@ -4,4 +4,8 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MetinGo.Common\MetinGo.Common.csproj" />
+  </ItemGroup>
+
 </Project>

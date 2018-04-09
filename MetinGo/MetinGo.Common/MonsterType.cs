@@ -1,8 +1,8 @@
-﻿namespace MetinGo.ApiModel.Monster
+﻿namespace MetinGo.Common
 {
     public enum MonsterType
     {
         WildDog = 1,
-        WildWolf = 2
+        HungryWolf = 2
     }
 }

@@ -22,7 +22,7 @@ namespace MetinGo.Server.Services
 	    public IEnumerable<Character> GetCurrentUserCharacters() => _db.Characters.Where(c => c.UserId == _sessionManager.CurrentUser.Id);
 		public async Task<Character> CreateCharacter(Guid userId, string characterName)
 		{
-			var character = new Character{Name = characterName, UserId = userId, Level = 1};
+			var character = new Character{Name = characterName, UserId = userId, Level = 1, BaseAttack = 10, BaseDefence = 5, BaseMaxHP = 20};
 		    _db.Add(character);
 		    await _db.SaveChangesAsync();
 			return character;

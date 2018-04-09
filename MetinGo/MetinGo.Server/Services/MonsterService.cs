@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MetinGo.Common;
 using MetinGo.Server.Entities;
 using MetinGo.Server.Infrastructure.Database;
 using MetinGo.Server.Infrastructure.Session;
@@ -44,6 +45,7 @@ namespace MetinGo.Server.Services
         private async Task<IEnumerable<Monster>> GenerateMonsters(int amount, Character character)
         {
             var monsters = new List<Monster>();
+            var monsterTypesCount = Enum.GetNames(typeof(MonsterType)).Length;
             for (var i = 0; i < amount; i++)
             {
                 var monster = new Monster
@@ -51,7 +53,8 @@ namespace MetinGo.Server.Services
                     Level  = Math.Max(1, character.Level + _random.Next(-2, 2)),
                     Longitude = character.Longitude + _random.NextDouble(-0.001, 0.001),
                     Latitude = character.Latitude + _random.NextDouble(-0.001, 0.001),
-                    IsAlive = true
+                    IsAlive = true,
+                    MonsterType = (MonsterType)_random.Next(1, monsterTypesCount + 1)
                 };
                 monsters.Add(monster);
             }

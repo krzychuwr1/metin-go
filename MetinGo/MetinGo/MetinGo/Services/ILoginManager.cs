@@ -57,7 +57,7 @@ namespace MetinGo.Services
 
                         characters = await _apiClient.Get<List<Character>>(Endpoints.Character);
                         var character = characters[0];
-                        _sessionManager.Character = new Models.Character.Character() { Id = character.Id, Name = character.Name, Level = character.Level, Experience = character.Experience};
+                        _sessionManager.Character = new Models.Character.Character { Id = character.Id, Name = character.Name, Level = character.Level, Experience = character.Experience, BaseAttack = character.BaseAttack, BaseDefence = character.BaseDefence, BaseMaxHP = character.BaseMaxHP, StatPoints = character.StatPoints};
                         await _navigationManager.SetCurrentPage(new NavigationPage(App.Current.Container.Resolve<MapPage>()));
                         await PopupNavigation.RemovePageAsync(entryPopup, true);
                     };
@@ -66,7 +66,7 @@ namespace MetinGo.Services
                 else
                 {
                     var character = characters[0];
-                    _sessionManager.Character = new Models.Character.Character { Id = character.Id, Name = character.Name, Level = character.Level, Experience = character.Experience};
+                    _sessionManager.Character = new Models.Character.Character { Id = character.Id, Name = character.Name, Level = character.Level, Experience = character.Experience, BaseAttack = character.BaseAttack, BaseDefence = character.BaseDefence, BaseMaxHP = character.BaseMaxHP, StatPoints = character.StatPoints };
                     await _navigationManager.SetCurrentPage(new NavigationPage(App.Current.Container.Resolve<MapPage>()));
                 }
             }

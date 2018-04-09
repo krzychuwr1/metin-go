@@ -16,7 +16,6 @@ namespace MetinGo.Server.Entities
         public Character Character { get; set; }
         public Guid MonsterId { get; set; }
         public Monster Monster { get; set; }
-        
         public bool PlayerWon { get; set; }
         public int Experience { get; set; }
     }
