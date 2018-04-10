@@ -152,6 +152,8 @@ namespace MetinGo.Views
         private void SaveFightResult(FightResponse response)
         {
             var character = _sessionManager.Character;
+            if (response.LevelAfterFight > character.Level)
+                character.StatPoints += 4;
             character.Level = response.LevelAfterFight;
             character.Experience = character.Experience + response.Experience;
             _sessionManager.Character = character;

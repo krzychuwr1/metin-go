@@ -23,5 +23,21 @@ namespace MetinGo.Server.Entities
         public int BaseAttack { get; set; }
         public int BaseDefence { get; set; }
         public int BaseMaxHP { get; set; }
+
+        public void IncreaseStats(int requestAttack, int requestDefence, int requestHP)
+        {
+            var statsPointsRequestSum = requestAttack + requestDefence + requestHP;
+            if (statsPointsRequestSum <= StatPoints)
+            {
+                BaseAttack += requestAttack;
+                BaseDefence += requestDefence;
+                BaseMaxHP += 5 * requestHP;
+                StatPoints -= statsPointsRequestSum;
+            }
+            else
+            {
+                throw new ApplicationException("Trying to increase stats by more points than points available");
+            }
+        }
     }
 }

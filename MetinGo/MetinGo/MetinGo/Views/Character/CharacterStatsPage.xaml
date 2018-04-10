@@ -15,26 +15,85 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="3*" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="3*" />
+                <ColumnDefinition Width="3*" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="2*" />
             </Grid.ColumnDefinitions>
-            <Image Source="{xamlExtension:ImageResource MetinGo.Images.ninja.png}" Grid.ColumnSpan="2" Grid.Column="1" />
+            <Image Source="{xamlExtension:ImageResource MetinGo.Images.ninja.png}" Grid.ColumnSpan="3" Grid.Column="1" />
             <Label Text="Name:" Grid.Row="1" Grid.Column="1" />
-            <Label Text="{Binding Character.Name}" Grid.Row="1" Grid.Column="2" />
+            <Label Text="{Binding Character.Name}" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="4" />
             <Label Text="Level:" Grid.Row="2" Grid.Column="1" />
             <Label Text="{Binding Character.Level}" Grid.Row="2" Grid.Column="2" />
             <Label Text="Attack:" Grid.Row="3" Grid.Column="1" />
-            <Label Text="{Binding Character.BaseAttack}" Grid.Row="3" Grid.Column="2" />
+            <Label Text="{Binding Attack}" Grid.Row="3" Grid.Column="2" />
+            <Image Source="{xamlExtension:ImageResource Source=MetinGo.Images.plus.png}" HeightRequest="15" WidthRequest="15" Grid.Row="3" Grid.Column="3" IsVisible="{Binding AvailablePoints, Converter={StaticResource BiggerThanZeroConverter}}">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ChangeAttackPointCommand}" >
+                        <TapGestureRecognizer.CommandParameter>
+                            <x:Int32>1</x:Int32>
+                        </TapGestureRecognizer.CommandParameter>    
+                    </TapGestureRecognizer>
+                </Image.GestureRecognizers>
+            </Image>
+            <Image Source="{xamlExtension:ImageResource Source=MetinGo.Images.minus.png}" HeightRequest="15" WidthRequest="15" Grid.Row="3" Grid.Column="4" IsVisible="{Binding SpentAttackPoints, Converter={StaticResource BiggerThanZeroConverter}}">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ChangeAttackPointCommand}" >
+                        <TapGestureRecognizer.CommandParameter>
+                            <x:Int32>-1</x:Int32>
+                        </TapGestureRecognizer.CommandParameter>
+                    </TapGestureRecognizer>
+                </Image.GestureRecognizers>
+            </Image>
             <Label Text="Defence:" Grid.Row="4" Grid.Column="1" />
-            <Label Text="{Binding Character.BaseDefence}" Grid.Row="4" Grid.Column="2" />
+            <Label Text="{Binding Defence}" Grid.Row="4" Grid.Column="2" />
+            <Image Source="{xamlExtension:ImageResource Source=MetinGo.Images.plus.png}" HeightRequest="15" WidthRequest="15" Grid.Row="4" Grid.Column="3" IsVisible="{Binding AvailablePoints, Converter={StaticResource BiggerThanZeroConverter}}">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ChangeDefencePointCommand}" >
+                        <TapGestureRecognizer.CommandParameter>
+                            <x:Int32>1</x:Int32>
+                        </TapGestureRecognizer.CommandParameter>
+                    </TapGestureRecognizer>
+                </Image.GestureRecognizers>
+            </Image>
+            <Image Source="{xamlExtension:ImageResource Source=MetinGo.Images.minus.png}" HeightRequest="15" WidthRequest="15" Grid.Row="4" Grid.Column="4" IsVisible="{Binding SpentDefencePoints, Converter={StaticResource BiggerThanZeroConverter}}">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ChangeDefencePointCommand}" >
+                        <TapGestureRecognizer.CommandParameter>
+                            <x:Int32>-1</x:Int32>
+                        </TapGestureRecognizer.CommandParameter>
+                    </TapGestureRecognizer>
+                </Image.GestureRecognizers>
+            </Image>
             <Label Text="Max HP:" Grid.Row="5" Grid.Column="1" />
-            <Label Text="{Binding Character.BaseMaxHP}" Grid.Row="5" Grid.Column="2" />
-
+            <Label Text="{Binding HP}" Grid.Row="5" Grid.Column="2" />
+            <Image Source="{xamlExtension:ImageResource Source=MetinGo.Images.plus.png}" HeightRequest="15" WidthRequest="15" Grid.Row="5" Grid.Column="3" IsVisible="{Binding AvailablePoints, Converter={StaticResource BiggerThanZeroConverter}}">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ChangeHpPointCommand}" >
+                        <TapGestureRecognizer.CommandParameter>
+                            <x:Int32>1</x:Int32>
+                        </TapGestureRecognizer.CommandParameter>
+                    </TapGestureRecognizer>
+                </Image.GestureRecognizers>
+            </Image>
+            <Image Source="{xamlExtension:ImageResource Source=MetinGo.Images.minus.png}" HeightRequest="15" WidthRequest="15" Grid.Row="5" Grid.Column="4" IsVisible="{Binding SpentHpPoints, Converter={StaticResource BiggerThanZeroConverter}}">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ChangeHpPointCommand}" >
+                        <TapGestureRecognizer.CommandParameter>
+                            <x:Int32>-1</x:Int32>
+                        </TapGestureRecognizer.CommandParameter>
+                    </TapGestureRecognizer>
+                </Image.GestureRecognizers>
+            </Image>
+            <Label Text="Stat points:" Grid.Row="6" Grid.Column="1" />
+            <Label Text="{Binding AvailablePoints}" Grid.Row="6" Grid.Column="2" />
+            <Button Text="Save" Grid.ColumnSpan="3" Grid.Column="1" Grid.Row="7" HeightRequest="50" HorizontalOptions="Center" VerticalOptions="Center" Command="{Binding SaveChangesCommand}" />
         </Grid>
     </ContentPage.Content>
 </ContentPage>
