@@ -1,35 +1,27 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
-
-using Xamarin.Forms;
-
+using MetinGo.Infrastructure.Session;
 using MetinGo.Models;
 using MetinGo.Services;
 using MetinGo.Views;
+using Xamarin.Forms;
 
-namespace MetinGo.ViewModels
+namespace MetinGo.ViewModels.Equipment
 {
     public class ItemsViewModel : ObservableObject
     {
+        private readonly ISessionManager _sessionManager;
         public ObservableCollection<Item> Items { get; set; }
         public Command LoadItemsCommand { get; set; }
 
-        public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>() ?? new MockDataStore();
-
-
-        public ItemsViewModel()
+        public ItemsViewModel(ISessionManager sessionManager)
         {
+            _sessionManager = sessionManager;
             Items = new ObservableCollection<Item>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
-
-            MessagingCenter.Subscribe<NewItemPage, Item>(this, "AddItem", async (obj, item) =>
-            {
-                var _item = item as Item;
-                Items.Add(_item);
-                await DataStore.AddItemAsync(_item);
-            });
         }
 
         async Task ExecuteLoadItemsCommand()
@@ -38,7 +30,7 @@ namespace MetinGo.ViewModels
             try
             {
                 Items.Clear();
-                var items = await DataStore.GetItemsAsync(true);
+                var items = new List<Item>{new Item(){Id = "1", Description = "Description", Text = "Text"}};
                 foreach (var item in items)
                 {
                     Items.Add(item);

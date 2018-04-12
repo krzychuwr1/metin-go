@@ -20,5 +20,7 @@ namespace MetinGo.Server.Infrastructure.Database
         public DbSet<Monster> Monsters { get; set; }
 
         public DbSet<Entities.Fight> Fights { get; set; }
+        public DbSet<Item> Items { get; set; }
+        public DbSet<CharacterItem> CharacterItems { get; set; }
     }
 }

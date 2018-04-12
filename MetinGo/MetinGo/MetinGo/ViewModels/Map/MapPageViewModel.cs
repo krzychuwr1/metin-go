@@ -8,6 +8,7 @@ using MetinGo.Infrastructure.Session;
 using MetinGo.Models.Character;
 using MetinGo.Views;
 using MetinGo.Views.Character;
+using MetinGo.Views.Equipment;
 using MetinGo.Views.Login;
 using Xamarin.Forms;
 
@@ -25,7 +26,10 @@ namespace MetinGo.ViewModels.Map
             OpenCharactersCommand = new Command(OpenCharacters);
             LogoutCommand = new Command(Logout);
             OpenCharacterStatsCommand = new Command(OpenCharacterStats);
+            OpenEquipmentCommand = new Command(OpenEquipment);
         }
+
+        private void OpenEquipment() => _navigationManager.PushAsync(new EquipmentPage());
 
         private void OpenCharacterStats() => _navigationManager.PushAsync(new CharacterStatsPage());
 
@@ -49,6 +53,8 @@ namespace MetinGo.ViewModels.Map
         public ICommand LogoutCommand { get; }
 
         public ICommand OpenCharacterStatsCommand { get; }
+
+        public ICommand OpenEquipmentCommand { get; }
 
         public void RefreshCharacter()
         {

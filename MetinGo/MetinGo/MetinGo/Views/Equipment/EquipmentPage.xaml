@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:MetinGo.Views;assembly=MetinGo"
+             xmlns:equipment="clr-namespace:MetinGo.Views.Equipment;assembly=MetinGo"
+             x:Class="MetinGo.Views.Equipment.EquipmentPage"
+            x:Name="Equipment"
+            BindingContext="{x:Reference Equipment}"
+            Title="{Binding CurrentPage.Title}">
+    <equipment:ItemsPage Title="Weapon" Icon="Sword.png"></equipment:ItemsPage>
+    <equipment:ItemsPage Title="Chest" Icon="Chest.png"></equipment:ItemsPage>
+    <equipment:ItemsPage Title="Helmet" Icon="Helmet.png"></equipment:ItemsPage>
+</TabbedPage>

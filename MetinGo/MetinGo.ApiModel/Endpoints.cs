@@ -6,7 +6,8 @@ namespace MetinGo.ApiModel
 {
     public class Endpoints
     {
-	    public const string Registration = "Registration";
+        public const string CharacterItems = "CharacterItems";
+        public const string Registration = "Registration";
 	    public const string Login = "Login";
 	    public const string Character = "Character";
         public const string Monster = "Monster";

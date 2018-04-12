@@ -6,6 +6,7 @@ using MetinGo.Infrastructure.Navigation;
 using MetinGo.Views;
 using MetinGo.Views.Login;
 using Xamarin.Forms;
+using ItemsPage = MetinGo.Views.Equipment.ItemsPage;
 
 namespace MetinGo.ViewModels
 {

@@ -23,6 +23,7 @@ namespace MetinGo.Server.Entities
         public int BaseAttack { get; set; }
         public int BaseDefence { get; set; }
         public int BaseMaxHP { get; set; }
+        public List<CharacterItem> CharacterItems { get; set; }
 
         public void IncreaseStats(int requestAttack, int requestDefence, int requestHP)
         {
