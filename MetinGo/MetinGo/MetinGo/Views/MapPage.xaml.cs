@@ -13,6 +13,7 @@ using MetinGo.Common;
 using MetinGo.Infrastructure.Permission;
 using MetinGo.Infrastructure.RestApi;
 using MetinGo.Infrastructure.Session;
+using MetinGo.Models.Item;
 using MetinGo.ViewModels.Map;
 using Plugin.Geolocator;
 using Plugin.Permissions.Abstractions;

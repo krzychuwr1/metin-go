@@ -39,6 +39,7 @@ namespace MetinGo.Server
             services.AddDbContext<MetinGoDbContext>(options => options.UseSqlServer(connection));
             services.AddScoped<ILevelExperienceCalculator, LevelExperienceCalculator>();
             services.AddScoped<IMonsterTypeStatsCalculator, MonsterTypeStatsCalculator>();
+            services.AddScoped<IItemWithLevelStatsCalculator, ItemWithLevelStatsCalculator>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ICharacterService, CharacterService>();
 	        services.AddScoped<ISessionManager, SessionManager>();

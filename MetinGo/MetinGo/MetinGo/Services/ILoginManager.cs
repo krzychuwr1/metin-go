@@ -5,12 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using MetinGo.ApiModel;
 using MetinGo.ApiModel.Character;
+using MetinGo.ApiModel.Item;
 using MetinGo.Infrastructure.Navigation;
 using MetinGo.Infrastructure.RestApi;
 using MetinGo.Infrastructure.Session;
+using MetinGo.Services.Item;
 using MetinGo.Views;
 using MetinGo.Views.Login;
 using MetinGo.Views.Popup;
+using Realms;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
 using Unity;
@@ -28,16 +31,19 @@ namespace MetinGo.Services
         private readonly ISessionManager _sessionManager;
         private readonly INavigationManager _navigationManager;
         private readonly IApiClient _apiClient;
+        private readonly IItemService _itemService;
 
-        public LoginManager(ISessionManager sessionManager, INavigationManager navigationManager, IApiClient apiClient)
+        public LoginManager(ISessionManager sessionManager, INavigationManager navigationManager, IApiClient apiClient, IItemService itemService)
         {
             _sessionManager = sessionManager;
             _navigationManager = navigationManager;
             _apiClient = apiClient;
+            _itemService = itemService;
         }
 
         public async Task HandleLogin()
         {
+            await _itemService.UpdateItems();
             if (_sessionManager.Character?.Id != null)
             {
                 await _navigationManager.SetCurrentPage(new NavigationPage(App.Current.Container.Resolve<MapPage>()));

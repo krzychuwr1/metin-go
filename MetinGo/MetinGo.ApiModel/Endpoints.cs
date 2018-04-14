@@ -14,5 +14,6 @@ namespace MetinGo.ApiModel
         public const string NearbyCharacters = "NearbyCharacters";
         public const string Fight = "Fight";
         public const string CharacterStats = "CharacterStats";
+        public const string Item = "Item";
     }
 }

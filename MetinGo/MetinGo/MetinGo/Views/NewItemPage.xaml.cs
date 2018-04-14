@@ -5,6 +5,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 using MetinGo.Models;
+using MetinGo.Models.Item;
 
 namespace MetinGo.Views
 {
@@ -19,8 +20,6 @@ namespace MetinGo.Views
 
             Item = new Item
             {
-                Text = "Item name",
-                Description = "This is an item description."
             };
 
             BindingContext = this;

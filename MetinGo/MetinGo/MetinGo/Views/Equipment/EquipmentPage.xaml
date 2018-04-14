@@ -3,11 +3,24 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:views="clr-namespace:MetinGo.Views;assembly=MetinGo"
              xmlns:equipment="clr-namespace:MetinGo.Views.Equipment;assembly=MetinGo"
+             xmlns:common="clr-namespace:MetinGo.Common;assembly=MetinGo.Common"
              x:Class="MetinGo.Views.Equipment.EquipmentPage"
             x:Name="Equipment"
             BindingContext="{x:Reference Equipment}"
             Title="{Binding CurrentPage.Title}">
-    <equipment:ItemsPage Title="Weapon" Icon="Sword.png"></equipment:ItemsPage>
-    <equipment:ItemsPage Title="Chest" Icon="Chest.png"></equipment:ItemsPage>
-    <equipment:ItemsPage Title="Helmet" Icon="Helmet.png"></equipment:ItemsPage>
+    <equipment:ItemsPage Title="Weapon" Icon="Sword.png">
+        <x:Arguments>
+            <common:ItemType>Sword</common:ItemType>
+        </x:Arguments>
+    </equipment:ItemsPage>
+    <equipment:ItemsPage Title="Chest" Icon="Chest.png">
+        <x:Arguments>
+            <common:ItemType>ChestArmor</common:ItemType>
+        </x:Arguments>
+    </equipment:ItemsPage>
+    <equipment:ItemsPage Title="Helmet" Icon="Helmet.png">
+        <x:Arguments>
+            <common:ItemType>Helmet</common:ItemType>
+        </x:Arguments>
+    </equipment:ItemsPage>
 </TabbedPage>

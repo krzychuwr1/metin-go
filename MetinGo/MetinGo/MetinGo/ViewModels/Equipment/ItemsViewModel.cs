@@ -2,10 +2,16 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
+using MetinGo.Common;
+using MetinGo.Infrastructure.Database;
 using MetinGo.Infrastructure.Session;
 using MetinGo.Models;
+using MetinGo.Models.Item;
 using MetinGo.Services;
+using MetinGo.Services.Item;
+using MetinGo.ViewModels.Item;
 using MetinGo.Views;
 using Xamarin.Forms;
 
@@ -14,24 +20,29 @@ namespace MetinGo.ViewModels.Equipment
     public class ItemsViewModel : ObservableObject
     {
         private readonly ISessionManager _sessionManager;
-        public ObservableCollection<Item> Items { get; set; }
+        private readonly IItemService _itemService;
+        public ObservableCollection<CharacterItemViewModel> Items { get; set; }
         public Command LoadItemsCommand { get; set; }
-
-        public ItemsViewModel(ISessionManager sessionManager)
+        private bool _initialized = false;
+        public ItemsViewModel(ISessionManager sessionManager, IItemService itemService)
         {
             _sessionManager = sessionManager;
-            Items = new ObservableCollection<Item>();
+            _itemService = itemService;
+            Items = new ObservableCollection<CharacterItemViewModel>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
         }
 
-        async Task ExecuteLoadItemsCommand()
+        public async Task ExecuteLoadItemsCommand()
         {
-
+            if (_initialized)
+                return;
+            _initialized = true;
             try
             {
+                await _itemService.UpdateCharacterItems();
                 Items.Clear();
-                var items = new List<Item>{new Item(){Id = "1", Description = "Description", Text = "Text"}};
-                foreach (var item in items)
+                var items = await _itemService.GetCharacterItems();
+                foreach (var item in items.Where(i => i.CharacterItem.Item.ItemType == ItemType))
                 {
                     Items.Add(item);
                 }
@@ -41,5 +52,7 @@ namespace MetinGo.ViewModels.Equipment
                 Debug.WriteLine(ex);
             }
         }
+
+        public ItemType ItemType { get; set; }
     }
 }

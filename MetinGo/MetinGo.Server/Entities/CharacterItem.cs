@@ -14,7 +14,8 @@ namespace MetinGo.Server.Entities
         public Guid Id { get; set; }
         public Guid CharacterId { get; set; }
         public Character Character { get; set; }
-        public Guid ItemId { get; set; }
+        public int ItemId { get; set; }
         public Item Item { get; set; }
+        public int Level { get; set; }
     }
 }

@@ -4,6 +4,7 @@ using System.Text;
 using MetinGo.ViewModels;
 using MetinGo.ViewModels.Character;
 using MetinGo.ViewModels.Equipment;
+using MetinGo.ViewModels.Item;
 using MetinGo.ViewModels.Login;
 using MetinGo.ViewModels.Map;
 using Unity;
@@ -18,5 +19,6 @@ namespace MetinGo.Infrastructure.ViewModelLocator
         public static MenuPageViewModel MenuPageViewModel => App.Current.Container.Resolve<MenuPageViewModel>();
         public static MapPageViewModel MapPageViewModel => App.Current.Container.Resolve<MapPageViewModel>();
         public static CharactersStatsPageViewModel CharacterStatsPageViewModel => App.Current.Container.Resolve<CharactersStatsPageViewModel>();
+        public static CharacterItemDetailsViewModel CharacterItemDetailsViewModel => App.Current.Container.Resolve<CharacterItemDetailsViewModel>();
     }
 }

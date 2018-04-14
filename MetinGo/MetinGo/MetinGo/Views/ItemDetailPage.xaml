@@ -2,11 +2,31 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MetinGo.Views.ItemDetailPage"
-             Title="{Binding Title}">
-    <StackLayout Spacing="20" Padding="15">
-        <Label Text="Text:" FontSize="Medium" />
-        <Label Text="{Binding Item.Text}" FontSize="Small"/>
-        <Label Text="Description:" FontSize="Medium" />
-        <Label Text="{Binding Item.Description}" FontSize="Small"/>
-    </StackLayout>
+             Title="{Binding Item.CharacterItem.Item.Name}"
+             xmlns:viewModelLocator="clr-namespace:MetinGo.Infrastructure.ViewModelLocator;assembly=MetinGo"
+             BindingContext="{x:Static viewModelLocator:ViewModelLocator.CharacterItemDetailsViewModel}">
+    <Grid Padding="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="3*" />
+        </Grid.ColumnDefinitions>
+        <StackLayout Grid.Column="0">
+            <Label Text="Name:" FontSize="Medium" />
+            <Label Text="Rarity:" FontSize="Medium" />
+            <Label Text="Level:" FontSize="Medium" />
+            <Label Text="Attack:" FontSize="Medium" />
+            <Label Text="Defence:" FontSize="Medium" />
+            <Label Text="Max HP:" FontSize="Medium" />
+            <Label Text="Description:" FontSize="Medium" />
+        </StackLayout>
+        <StackLayout Grid.Column="1">
+            <Label Text="{Binding Item.CharacterItem.Item.Name}" FontSize="Medium"/>
+            <Label Text="{Binding Item.CharacterItem.Item.Rarity}" FontSize="Medium"/>
+            <Label Text="{Binding Item.CharacterItem.Item.Level}" FontSize="Medium"/>
+            <Label Text="{Binding Item.ItemWithLevelStats.Attack}" FontSize="Medium"/>
+            <Label Text="{Binding Item.ItemWithLevelStats.Defence}" FontSize="Medium"/>
+            <Label Text="{Binding Item.ItemWithLevelStats.MaxHp}" FontSize="Medium"/>
+            <Label Text="{Binding Item.CharacterItem.Item.Description}" FontSize="Medium"/>
+        </StackLayout>
+    </Grid>
 </ContentPage>

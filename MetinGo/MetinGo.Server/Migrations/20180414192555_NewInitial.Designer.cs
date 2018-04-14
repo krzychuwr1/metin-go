@@ -12,8 +12,8 @@ using System;
 namespace MetinGo.Server.Migrations
 {
     [DbContext(typeof(MetinGoDbContext))]
-    [Migration("20180409194603_FixFightsColumns")]
-    partial class FixFightsColumns
+    [Migration("20180414192555_NewInitial")]
+    partial class NewInitial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -54,6 +54,26 @@ namespace MetinGo.Server.Migrations
                     b.ToTable("Characters");
                 });
 
+            modelBuilder.Entity("MetinGo.Server.Entities.CharacterItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("CharacterId");
+
+                    b.Property<int>("ItemId");
+
+                    b.Property<int>("Level");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CharacterId");
+
+                    b.HasIndex("ItemId");
+
+                    b.ToTable("CharacterItems");
+                });
+
             modelBuilder.Entity("MetinGo.Server.Entities.Fight", b =>
                 {
                     b.Property<Guid>("Id")
@@ -74,6 +94,38 @@ namespace MetinGo.Server.Migrations
                     b.HasIndex("MonsterId");
 
                     b.ToTable("Fights");
+                });
+
+            modelBuilder.Entity("MetinGo.Server.Entities.Item", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("Attack");
+
+                    b.Property<int>("Defence");
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("ImagePath");
+
+                    b.Property<int>("ItemType");
+
+                    b.Property<int>("MaxHP");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("PerLevelAttack");
+
+                    b.Property<int>("PerLevelDefence");
+
+                    b.Property<int>("PerLevelMaxHP");
+
+                    b.Property<int>("Rarity");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Items");
                 });
 
             modelBuilder.Entity("MetinGo.Server.Entities.Monster", b =>
@@ -115,6 +167,19 @@ namespace MetinGo.Server.Migrations
                     b.HasOne("MetinGo.Server.Entities.User", "User")
                         .WithMany("Characters")
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MetinGo.Server.Entities.CharacterItem", b =>
+                {
+                    b.HasOne("MetinGo.Server.Entities.Character", "Character")
+                        .WithMany("CharacterItems")
+                        .HasForeignKey("CharacterId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MetinGo.Server.Entities.Item", "Item")
+                        .WithMany()
+                        .HasForeignKey("ItemId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

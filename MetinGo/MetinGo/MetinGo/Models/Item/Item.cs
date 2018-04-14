@@ -1,14 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using MetinGo.Common;
+using Realms;
 
-namespace MetinGo.ApiModel.Item
+namespace MetinGo.Models.Item
 {
-    public class Item
+    public class Item : RealmObject, IItem
     {
+        [PrimaryKey]
         public int Id { get; set; }
-        public ItemType ItemType { get; set; }
+        public int ItemTypeId { get; set; }
+        [Ignored]
+        public ItemType ItemType => (ItemType) ItemTypeId;
+        public int Level { get; set; }
         public int Attack { get; set; }
         public int Defence { get; set; }
         public int MaxHP { get; set; }
@@ -18,6 +21,8 @@ namespace MetinGo.ApiModel.Item
         public string ImagePath { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public Rarity Rarity { get; set; }
+        public int RarityId { get; set; }
+        [Ignored]
+        public Rarity Rarity => (Rarity)RarityId;
     }
 }
