@@ -22,5 +22,12 @@ namespace MetinGo.Server.Infrastructure.Database
         public DbSet<Entities.Fight> Fights { get; set; }
         public DbSet<Item> Items { get; set; }
         public DbSet<CharacterItem> CharacterItems { get; set; }
+        public DbSet<MonsterTypeLoot> MonsterTypeLoots { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<MonsterTypeLoot>()
+                .HasKey(m => new { m.ItemId, m.MonsterType});
+        }
     }
 }

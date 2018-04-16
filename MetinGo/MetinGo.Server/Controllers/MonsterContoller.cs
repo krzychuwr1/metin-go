@@ -7,7 +7,6 @@ using MetinGo.ApiModel;
 using MetinGo.ApiModel.Character;
 using MetinGo.ApiModel.Monster;
 using MetinGo.Server.Infrastructure.Filters;
-using MetinGo.Server.Migrations;
 using MetinGo.Server.Services;
 using Microsoft.AspNetCore.Mvc;
 

@@ -58,7 +58,9 @@ namespace MetinGo.Server.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid>("CharacterId");
+                    b.Property<Guid?>("CharacterId");
+
+                    b.Property<Guid>("FightId");
 
                     b.Property<int>("ItemId");
 
@@ -67,6 +69,8 @@ namespace MetinGo.Server.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CharacterId");
+
+                    b.HasIndex("FightId");
 
                     b.HasIndex("ItemId");
 
@@ -147,6 +151,19 @@ namespace MetinGo.Server.Migrations
                     b.ToTable("Monsters");
                 });
 
+            modelBuilder.Entity("MetinGo.Server.Entities.MonsterTypeLoot", b =>
+                {
+                    b.Property<int>("ItemId");
+
+                    b.Property<int>("MonsterType");
+
+                    b.Property<decimal>("Probability");
+
+                    b.HasKey("ItemId", "MonsterType");
+
+                    b.ToTable("MonsterTypeLoots");
+                });
+
             modelBuilder.Entity("MetinGo.Server.Entities.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -173,7 +190,11 @@ namespace MetinGo.Server.Migrations
                 {
                     b.HasOne("MetinGo.Server.Entities.Character", "Character")
                         .WithMany("CharacterItems")
-                        .HasForeignKey("CharacterId")
+                        .HasForeignKey("CharacterId");
+
+                    b.HasOne("MetinGo.Server.Entities.Fight", "Fight")
+                        .WithMany("Loot")
+                        .HasForeignKey("FightId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("MetinGo.Server.Entities.Item", "Item")
@@ -192,6 +213,14 @@ namespace MetinGo.Server.Migrations
                     b.HasOne("MetinGo.Server.Entities.Monster", "Monster")
                         .WithMany()
                         .HasForeignKey("MonsterId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MetinGo.Server.Entities.MonsterTypeLoot", b =>
+                {
+                    b.HasOne("MetinGo.Server.Entities.Item", "Item")
+                        .WithMany()
+                        .HasForeignKey("ItemId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

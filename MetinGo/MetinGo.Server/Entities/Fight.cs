@@ -18,5 +18,6 @@ namespace MetinGo.Server.Entities
         public Monster Monster { get; set; }
         public bool PlayerWon { get; set; }
         public int Experience { get; set; }
+        public List<CharacterItem> Loot { get; set; }
     }
 }

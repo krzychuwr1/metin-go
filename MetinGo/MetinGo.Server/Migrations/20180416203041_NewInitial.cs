@@ -62,6 +62,25 @@ namespace MetinGo.Server.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "MonsterTypeLoots",
+                columns: table => new
+                {
+                    ItemId = table.Column<int>(nullable: false),
+                    MonsterType = table.Column<int>(nullable: false),
+                    Probability = table.Column<decimal>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MonsterTypeLoots", x => new { x.ItemId, x.MonsterType });
+                    table.ForeignKey(
+                        name: "FK_MonsterTypeLoots_Items_ItemId",
+                        column: x => x.ItemId,
+                        principalTable: "Items",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Characters",
                 columns: table => new
                 {
@@ -84,32 +103,6 @@ namespace MetinGo.Server.Migrations
                         name: "FK_Characters_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CharacterItems",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    CharacterId = table.Column<Guid>(nullable: false),
-                    ItemId = table.Column<int>(nullable: false),
-                    Level = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CharacterItems", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_CharacterItems_Characters_CharacterId",
-                        column: x => x.CharacterId,
-                        principalTable: "Characters",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_CharacterItems_Items_ItemId",
-                        column: x => x.ItemId,
-                        principalTable: "Items",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -141,10 +134,48 @@ namespace MetinGo.Server.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "CharacterItems",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    CharacterId = table.Column<Guid>(nullable: true),
+                    FightId = table.Column<Guid>(nullable: false),
+                    ItemId = table.Column<int>(nullable: false),
+                    Level = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CharacterItems", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CharacterItems_Characters_CharacterId",
+                        column: x => x.CharacterId,
+                        principalTable: "Characters",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_CharacterItems_Fights_FightId",
+                        column: x => x.FightId,
+                        principalTable: "Fights",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CharacterItems_Items_ItemId",
+                        column: x => x.ItemId,
+                        principalTable: "Items",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_CharacterItems_CharacterId",
                 table: "CharacterItems",
                 column: "CharacterId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CharacterItems_FightId",
+                table: "CharacterItems",
+                column: "FightId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CharacterItems_ItemId",
@@ -171,6 +202,9 @@ namespace MetinGo.Server.Migrations
         {
             migrationBuilder.DropTable(
                 name: "CharacterItems");
+
+            migrationBuilder.DropTable(
+                name: "MonsterTypeLoots");
 
             migrationBuilder.DropTable(
                 name: "Fights");

@@ -12,10 +12,12 @@ namespace MetinGo.Server.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public Guid Id { get; set; }
-        public Guid CharacterId { get; set; }
+        public Guid? CharacterId { get; set; }
         public Character Character { get; set; }
         public int ItemId { get; set; }
         public Item Item { get; set; }
         public int Level { get; set; }
+        public Guid FightId { get; set; }
+        public Fight Fight { get; set; }
     }
 }

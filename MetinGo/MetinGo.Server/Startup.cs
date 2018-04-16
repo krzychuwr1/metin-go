@@ -40,6 +40,7 @@ namespace MetinGo.Server
             services.AddScoped<ILevelExperienceCalculator, LevelExperienceCalculator>();
             services.AddScoped<IMonsterTypeStatsCalculator, MonsterTypeStatsCalculator>();
             services.AddScoped<IItemWithLevelStatsCalculator, ItemWithLevelStatsCalculator>();
+            services.AddScoped<IMonsterExpRewardCalculator, MonsterExpRewardCalculator>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ICharacterService, CharacterService>();
 	        services.AddScoped<ISessionManager, SessionManager>();
@@ -47,6 +48,7 @@ namespace MetinGo.Server
             services.AddScoped<IFightService, FightService>();
             services.AddScoped<IFightSimulator, FightSimulator>();
             services.AddScoped<IFightProcessor, FightProcessor>();
+            services.AddScoped<ILootGenerator, LootGenerator>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddAutoMapper();
 	        services.AddScoped<UserContextFilter>();

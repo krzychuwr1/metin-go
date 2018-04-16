@@ -17,6 +17,7 @@ using MetinGo.Models.Item;
 using MetinGo.ViewModels.Map;
 using Plugin.Geolocator;
 using Plugin.Permissions.Abstractions;
+using Realms;
 using Unity;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
@@ -31,8 +32,10 @@ namespace MetinGo.Views
 	    private readonly ISessionManager _sessionManager;
 	    private readonly IApiClient _apiClient;
 	    private readonly IPermissionManager _permissionManager;
+	    private List<Item> _items;
+	    private Realm _realm;
 
-        private MapPageViewModel ViewModel => BindingContext as MapPageViewModel;
+	    private MapPageViewModel ViewModel => BindingContext as MapPageViewModel;
 
 	    public MapPage(ISessionManager sessionManager, IApiClient apiClient, IPermissionManager permissionManager)
 		{
@@ -50,6 +53,12 @@ namespace MetinGo.Views
             base.OnAppearing();
             Map.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(_sessionManager.Latitude ?? 0, _sessionManager.Longitude ?? 0), new Distance(100)));
             Map.MyLocationEnabled = true;
+
+            if (_items == null)
+            {
+                _realm = Realm.GetInstance();
+                _items = _realm.All<Item>().ToList();
+            }
 
             while (this.IsVisible)
             {
@@ -104,7 +113,7 @@ namespace MetinGo.Views
 	                new Pin
 	                {
 	                    Tag = monster,
-	                    Label = $"Dziki pies lv:{monster.Level}",
+	                    Label = $"Wild dog lv:{monster.Level}",
 	                    Position = monsterPosition,
 	                    IsVisible = true,
 	                    Icon = wildDogIcon
@@ -116,7 +125,7 @@ namespace MetinGo.Views
                     new Pin
                     {
                         Tag = monster,
-                        Label = $"Głodny wilk lv:{monster.Level}",
+                        Label = $"Hungry wolf lv:{monster.Level}",
                         Position = monsterPosition,
                         IsVisible = true,
                         Icon = hungryWolfIcon
@@ -128,22 +137,33 @@ namespace MetinGo.Views
         {
             if (e.Pin.Tag is Monster monster)
             {
-                var attack = await App.Current.MainPage.DisplayAlert("Dziki pies", "Czy chcesz zaatakować dzikiego psa?", "TAK", "NIE");
+                var attack = await App.Current.MainPage.DisplayAlert(monster.MonsterType.ToString(), $"Do you want to attack {monster.MonsterType}?", "YES", "NO");
                 if (attack)
                 {
                     var response = await _apiClient.Post<FightRequest, FightResponse>(new FightRequest() {MonsterId = monster.Id}, Endpoints.Fight);
                     if (response.PlayerWon)
                     {
-                        await App.Current.MainPage.DisplayAlert("Zwycięstwo!", $"Otrzymałeś {response.Experience} pkt doświadczenia", "OK");
+                        await App.Current.MainPage.DisplayAlert("Victory!", $"You have obtained {response.Experience} experience points", "OK");
                         if (response.LevelAfterFight > _sessionManager.Character.Level)
                         {
-                            await App.Current.MainPage.DisplayAlert("Level up!", $"Osiągnąłeś poziom {response.LevelAfterFight}", "OK");
+                            await App.Current.MainPage.DisplayAlert("Level up!", $"You are now level {response.LevelAfterFight}", "OK");
+                        }
+
+                        if (response.Loot != null)
+                        {
+                            foreach (var characterItem in response.Loot)
+                            {
+                                var item = _items.Single(i => i.Id == characterItem.ItemId);
+                                await App.Current.MainPage.DisplayAlert("New item!",
+                                    $"You have obtainted {item.Name} level {characterItem.Level}", "OK");
+                                _realm.Write(() => _realm.Add(new CharacterItem{CharacterId = _sessionManager.Character.Id.ToString(), Id = characterItem.Id.ToString(), Item = item, Level = characterItem.Level}));
+                            }
                         }
                         Map.Pins.Remove(e.Pin);
                     }
                     else
                     {
-                        await App.Current.MainPage.DisplayAlert("Porażka!", $"Utraciłeś {-response.Experience} pkt doświadczenia", "OK");
+                        await App.Current.MainPage.DisplayAlert("Defeat!", $"You have lost {-response.Experience} experience points", "OK");
                     }
                     SaveFightResult(response);
                 }

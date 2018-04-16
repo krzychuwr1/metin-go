@@ -35,6 +35,12 @@ namespace MetinGo.Server.Services
 
             if (fight.PlayerWon)
                 fight.Monster.IsAlive = false;
+
+            if (fight.Loot != null)
+            {
+                _db.Entry(currentCharacter).Collection(c => c.CharacterItems).Load();
+                currentCharacter.CharacterItems.AddRange(fight.Loot);
+            }
         }
     }
 }

@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using MetinGo.ApiModel;
 using MetinGo.ApiModel.Fight;
+using MetinGo.ApiModel.Item;
 using MetinGo.ApiModel.Monster;
 using MetinGo.Fight;
 using MetinGo.Server.Infrastructure.Database;
@@ -22,13 +24,15 @@ namespace MetinGo.Server.Controllers
         private readonly IFightProcessor _fightProcessor;
         private readonly MetinGoDbContext _db;
         private readonly ISessionManager _sessionManager;
+        private readonly IMapper _mapper;
 
-        public FightController(IFightService fightService, IFightProcessor fightProcessor, MetinGoDbContext db, ISessionManager sessionManager)
+        public FightController(IFightService fightService, IFightProcessor fightProcessor, MetinGoDbContext db, ISessionManager sessionManager, IMapper mapper)
         {
             _fightService = fightService;
             _fightProcessor = fightProcessor;
             _db = db;
             _sessionManager = sessionManager;
+            _mapper = mapper;
         }
 
         [HttpPost]
@@ -40,7 +44,8 @@ namespace MetinGo.Server.Controllers
             var fightResult = await _fightService.Fight(request.MonsterId);
             _fightProcessor.ProcessFight(fightResult);
             await _db.SaveChangesAsync();
-            return Ok(new FightResponse {Experience = fightResult.Experience, PlayerWon = fightResult.PlayerWon, LevelAfterFight = _sessionManager.CurrentCharacter.Level});
+            var loot = _mapper.Map<List<CharacterItem>>(fightResult.Loot);
+            return Ok(new FightResponse {Experience = fightResult.Experience, PlayerWon = fightResult.PlayerWon, LevelAfterFight = _sessionManager.CurrentCharacter.Level, Loot = loot});
         }
     }
 }
