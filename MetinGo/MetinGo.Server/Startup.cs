@@ -24,8 +24,11 @@ namespace MetinGo.Server
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly IHostingEnvironment _hostingEnvironment;
+
+        public Startup(IConfiguration configuration, IHostingEnvironment hostingEnvironment)
         {
+            _hostingEnvironment = hostingEnvironment;
             Configuration = configuration;
         }
 
@@ -35,8 +38,8 @@ namespace MetinGo.Server
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            var connection = Configuration.GetConnectionString("Main");
-            services.AddDbContext<MetinGoDbContext>(options => options.UseSqlServer(connection));
+            var connectionString = Configuration.GetConnectionString(_hostingEnvironment.IsDevelopment() ? "Development" : "Production");
+            services.AddDbContext<MetinGoDbContext>(options => options.UseSqlServer(connectionString));
             services.AddScoped<ILevelExperienceCalculator, LevelExperienceCalculator>();
             services.AddScoped<IMonsterTypeStatsCalculator, MonsterTypeStatsCalculator>();
             services.AddScoped<IItemWithLevelStatsCalculator, ItemWithLevelStatsCalculator>();
