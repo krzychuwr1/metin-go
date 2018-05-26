@@ -20,6 +20,7 @@ namespace MetinGo.Server
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
+                .ConfigureAppConfiguration(builder => builder.SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json").Build())
                 .Build();
     }
 }

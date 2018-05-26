@@ -35,7 +35,7 @@ namespace MetinGo.Server
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            var connection = @"Server=localhost\MSSQLENTERPRISE;Database=MetinGo;Trusted_Connection=False;ConnectRetryCount=0;User ID=sa;Password=Qwerty54123!";
+            var connection = Configuration.GetConnectionString("Main");
             services.AddDbContext<MetinGoDbContext>(options => options.UseSqlServer(connection));
             services.AddScoped<ILevelExperienceCalculator, LevelExperienceCalculator>();
             services.AddScoped<IMonsterTypeStatsCalculator, MonsterTypeStatsCalculator>();

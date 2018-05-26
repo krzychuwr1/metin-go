@@ -136,10 +136,5 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="UnsafeCompilerWorkaround.xml" />
-  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
-  <Import Project="UnsafeCompilerWorkaround.xml">
-  </Import>
 </Project>

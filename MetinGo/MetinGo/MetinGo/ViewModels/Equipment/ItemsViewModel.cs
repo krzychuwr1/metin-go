@@ -13,6 +13,7 @@ using MetinGo.Services;
 using MetinGo.Services.Item;
 using MetinGo.ViewModels.Item;
 using MetinGo.Views;
+using MetinGo.Views.Popup;
 using Xamarin.Forms;
 
 namespace MetinGo.ViewModels.Equipment
@@ -37,19 +38,23 @@ namespace MetinGo.ViewModels.Equipment
             if (_initialized)
                 return;
             _initialized = true;
-            try
+            using (var indicator = new ActionActivityIndicator("Loading items.."))
             {
-                await _itemService.UpdateCharacterItems();
-                Items.Clear();
-                var items = await _itemService.GetCharacterItems();
-                foreach (var item in items.Where(i => i.CharacterItem.Item.ItemType == ItemType))
+                await indicator.Show();
+                try
                 {
-                    Items.Add(item);
+                    await _itemService.UpdateCharacterItems();
+                    Items.Clear();
+                    var items = await _itemService.GetCharacterItems();
+                    foreach (var item in items.Where(i => i.CharacterItem.Item.ItemType == ItemType))
+                    {
+                        Items.Add(item);
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex);
+                }
             }
         }
 

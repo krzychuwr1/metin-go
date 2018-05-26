@@ -48,5 +48,5 @@ namespace MetinGo.Views.Equipment
 	    {
 	        //ViewModel.ItemType = _itemType;
 	    }
-    }
+	}
 }
