@@ -23,14 +23,21 @@ namespace MetinGo.ViewModels.Equipment
         private readonly ISessionManager _sessionManager;
         private readonly IItemService _itemService;
         public ObservableCollection<CharacterItemViewModel> Items { get; set; }
-        public Command LoadItemsCommand { get; set; }
+        public Command LoadItemsCommand { get; }
         private bool _initialized = false;
+        public Command EquipItemCommand { get; }
         public ItemsViewModel(ISessionManager sessionManager, IItemService itemService)
         {
             _sessionManager = sessionManager;
             _itemService = itemService;
             Items = new ObservableCollection<CharacterItemViewModel>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
+            EquipItemCommand = new Command<CharacterItemViewModel>(async item => await EquipItem(item));
+        }
+
+        private async Task EquipItem(CharacterItemViewModel item)
+        {
+            await App.Current.MainPage.DisplayAlert("test", "test", "test");
         }
 
         public async Task ExecuteLoadItemsCommand()

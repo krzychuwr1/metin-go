@@ -17,23 +17,26 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <Grid Padding="10">
+                            <Grid Padding="10" x:Name="Item">
                                 <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*" />
+                                    <ColumnDefinition Width="9*" />
                                     <ColumnDefinition Width="4*" />
-                                    <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*" />
                                     <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
-                                <Label Grid.Column="0" Grid.Row="0" Text="{Binding CharacterItem.Item.Name}" LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
-                                <Label Grid.Column="0" Grid.Row="1" Text="{Binding CharacterItem.Item.Description}" LineBreakMode="NoWrap" Style="{DynamicResource ListItemDetailTextStyle}" FontSize="13" />
-                                <ContentView Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" BackgroundColor="Green" Padding="2" HorizontalOptions="EndAndExpand" VerticalOptions="Center">
+                                <ContentView Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" BackgroundColor="Green" Padding="2" HorizontalOptions="EndAndExpand" VerticalOptions="Center">
                                     <ContentView BackgroundColor="DarkGray">
                                         <Image Source="{Binding CharacterItem.Item.ImagePath}" HeightRequest="40" WidthRequest="40" >
                                         </Image>
                                     </ContentView>
                                 </ContentView>
+                                <Label Grid.Column="1" Grid.Row="0" Text="{Binding CharacterItem.Item.Name}" LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
+                                <Label Grid.Column="1" Grid.Row="1" Text="{Binding CharacterItem.Item.Description}" LineBreakMode="NoWrap" Style="{DynamicResource ListItemDetailTextStyle}" FontSize="13" />
+                                <Button Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" Text="Equip" Command="{Binding Source={x:Reference BrowseItemsPage}, Path=BindingContext.EquipItemCommand}" CommandParameter="{Binding .}">
+                                </Button>
                             </Grid>
                         </ViewCell>
                     </DataTemplate>

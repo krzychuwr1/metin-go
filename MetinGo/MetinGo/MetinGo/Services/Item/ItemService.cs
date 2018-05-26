@@ -65,7 +65,8 @@ namespace MetinGo.Services.Item
                 CharacterId = _sessionManager.Character.Id.ToString(),
                 Id = i.Id.ToString(),
                 Item = items.Single(it => it.Id == i.ItemId),
-                Level = i.Level
+                Level = i.Level,
+                IsEquipped = i.IsEquipped
             }).ToList();
             db.Write(() =>
             {

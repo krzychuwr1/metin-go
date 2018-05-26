@@ -8,5 +8,6 @@ namespace MetinGo.ApiModel.Item
         public Guid CharacterId { get; set; }
         public int Level { get; set; }
         public int ItemId { get; set; }
+        public bool IsEquipped { get; set; }
     }
 }

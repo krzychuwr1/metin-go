@@ -10,5 +10,6 @@ namespace MetinGo.Models.Item
         public string CharacterId { get; set; }
         public int Level { get; set; }
         public Item Item { get; set; }
+        public bool IsEquipped { get; set; }
     }
 }

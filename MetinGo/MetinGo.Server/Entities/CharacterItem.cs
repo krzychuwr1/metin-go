@@ -18,6 +18,7 @@ namespace MetinGo.Server.Entities
         public Item Item { get; set; }
         public int Level { get; set; }
         public Guid FightId { get; set; }
-        public Fight Fight { get; set; }
+        public Fight Fight { get; set; } //fight in which the item has been obtained
+        public bool IsEquipped { get; set; }
     }
 }
