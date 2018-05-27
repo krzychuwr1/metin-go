@@ -10,5 +10,6 @@ namespace MetinGo.ViewModels.Item
     {
         public ItemWithLevelStats ItemWithLevelStats { get; set; }
         public CharacterItem CharacterItem { get; set; }
+        public bool CanBeEquipped => !CharacterItem.IsEquipped;
     }
 }

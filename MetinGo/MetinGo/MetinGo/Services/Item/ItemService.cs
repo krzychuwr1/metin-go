@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MetinGo.ApiModel;
 using MetinGo.ApiModel.Character;
+using MetinGo.ApiModel.EquippedItem;
 using MetinGo.ApiModel.Item;
 using MetinGo.Common;
 using MetinGo.Infrastructure.RestApi;
@@ -75,6 +76,11 @@ namespace MetinGo.Services.Item
                     db.Add(item, update: true);
                 }
             });
+        }
+
+        public async Task<EquipItemResponse> EquipItem(Guid characterItemId)
+        {
+            return await _apiClient.Post<EquipItemRequest, EquipItemResponse>(new EquipItemRequest() {CharacterItemId = characterItemId}, Endpoints.EquippedItems);
         }
 
         public async Task<List<CharacterItemViewModel>> GetCharacterItems()

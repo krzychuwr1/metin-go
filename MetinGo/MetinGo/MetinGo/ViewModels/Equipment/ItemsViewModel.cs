@@ -31,20 +31,27 @@ namespace MetinGo.ViewModels.Equipment
             _sessionManager = sessionManager;
             _itemService = itemService;
             Items = new ObservableCollection<CharacterItemViewModel>();
-            LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
+            LoadItemsCommand = new Command(async () => await InitialLoadItems());
             EquipItemCommand = new Command<CharacterItemViewModel>(async item => await EquipItem(item));
         }
 
         private async Task EquipItem(CharacterItemViewModel item)
         {
-            await App.Current.MainPage.DisplayAlert("test", "test", "test");
+            var characterItemGuid = Guid.Parse(item.CharacterItem.Id);
+            await _itemService.EquipItem(characterItemGuid);
+            await LoadItems();
         }
 
-        public async Task ExecuteLoadItemsCommand()
+        public async Task InitialLoadItems()
         {
             if (_initialized)
                 return;
             _initialized = true;
+            await LoadItems();
+        }
+
+        private async Task LoadItems()
+        {
             using (var indicator = new ActionActivityIndicator("Loading items.."))
             {
                 await indicator.Show();
@@ -53,7 +60,7 @@ namespace MetinGo.ViewModels.Equipment
                     await _itemService.UpdateCharacterItems();
                     Items.Clear();
                     var items = await _itemService.GetCharacterItems();
-                    foreach (var item in items.Where(i => i.CharacterItem.Item.ItemType == ItemType))
+                    foreach (var item in items.Where(i => i.CharacterItem.Item.ItemType == ItemType).OrderByDescending(i => i.CharacterItem.IsEquipped))
                     {
                         Items.Add(item);
                     }

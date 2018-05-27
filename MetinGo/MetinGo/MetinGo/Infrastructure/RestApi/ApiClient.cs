@@ -37,16 +37,24 @@ namespace MetinGo.Infrastructure.RestApi
 		    if (request == null) throw new ArgumentNullException(nameof(request));
 		    if (endpoint == null) throw new ArgumentNullException(nameof(endpoint));
 
-		    using (var client = new HttpClient())
-		    {
-		        _headersService.AddHeaders(client);
-                var json = JsonConvert.SerializeObject(request);
-			    var requestContent = new StringContent(json, Encoding.UTF8, "application/json");
-			    var response = await client.PostAsync(ConfigurationManager.AppSettings["ApiUrl"] + endpoint, requestContent);
-			    var responseContent = await response.Content.ReadAsStringAsync();
-			    var responseDeserialized = JsonConvert.DeserializeObject<TResponse>(responseContent);
-			    return responseDeserialized;
-		    }
+	        try
+	        {
+	            using (var client = new HttpClient())
+	            {
+	                _headersService.AddHeaders(client);
+	                var json = JsonConvert.SerializeObject(request);
+	                var requestContent = new StringContent(json, Encoding.UTF8, "application/json");
+	                var response = await client.PostAsync(ConfigurationManager.AppSettings["ApiUrl"] + endpoint, requestContent);
+	                var responseContent = await response.Content.ReadAsStringAsync();
+	                var responseDeserialized = JsonConvert.DeserializeObject<TResponse>(responseContent);
+	                return responseDeserialized;
+	            }
+            }
+	        catch (Exception e)
+	        {
+                await App.Current.MainPage.DisplayAlert("Error", "Error occurred when trying to communicate with the server", "OK");
+	            return default(TResponse);
+	        }
 	    }
 
         public async Task<TResponse> Get<TResponse>(string endpoint)

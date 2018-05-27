@@ -35,8 +35,8 @@
                                 </ContentView>
                                 <Label Grid.Column="1" Grid.Row="0" Text="{Binding CharacterItem.Item.Name}" LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
                                 <Label Grid.Column="1" Grid.Row="1" Text="{Binding CharacterItem.Item.Description}" LineBreakMode="NoWrap" Style="{DynamicResource ListItemDetailTextStyle}" FontSize="13" />
-                                <Button Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" Text="Equip" Command="{Binding Source={x:Reference BrowseItemsPage}, Path=BindingContext.EquipItemCommand}" CommandParameter="{Binding .}">
-                                </Button>
+                                <Button IsVisible="{Binding CanBeEquipped}" Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" Text="EQUIP" FontSize="13" Command="{Binding Source={x:Reference BrowseItemsPage}, Path=BindingContext.EquipItemCommand}" CommandParameter="{Binding .}" />
+                                <Button IsVisible="{Binding CharacterItem.IsEquipped}" Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" Text="EQUIPPED" IsEnabled="False" FontSize="13" />
                             </Grid>
                         </ViewCell>
                     </DataTemplate>
