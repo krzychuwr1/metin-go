@@ -14,15 +14,15 @@ namespace MetinGo.Common
                 case MonsterType.WildDog:
                     return new MonsterStats()
                     {
-                        Attack = 10 + level,
-                        Defence = 4,
+                        Attack = 10 + (level * 3 / 2),
+                        Defence = 4 + (level / 2),
                         MaxHP = 15 + level
                     };
                 case MonsterType.HungryWolf:
                     return new MonsterStats()
                     {
-                        Attack = 8 + level / 2,
-                        Defence = 5 + level / 2,
+                        Attack = 8 + level,
+                        Defence = 5 + level,
                         MaxHP = 20 + level
                     };
             }

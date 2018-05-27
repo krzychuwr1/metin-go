@@ -60,11 +60,11 @@ namespace MetinGo.ViewModels.Login
 	    private async void Login()
 	    {
 	        LoginResponse response = null;
-	        using (var indicator = new ActionActivityIndicator("Logging in..."))
-	        {
-	            await indicator.Show();
+	        //using (var indicator = new ActionActivityIndicator("Logging in..."))
+	        //{
+	        //    await indicator.Show();
 	            response = await _apiClient.Post<LoginRequest, LoginResponse>(new LoginRequest { Username = Username, Password = Password }, Endpoints.Login);
-            }
+            //}
 		    if (response != null)
 		    {
 			    _sessionManager.User = new User {Id = response.UserId, Name = Username};

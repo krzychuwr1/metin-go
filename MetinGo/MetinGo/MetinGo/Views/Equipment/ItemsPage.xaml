@@ -27,14 +27,17 @@
                                     <RowDefinition Height="*" />
                                     <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
-                                <ContentView Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" BackgroundColor="Green" Padding="2" HorizontalOptions="EndAndExpand" VerticalOptions="Center">
+                                <ContentView Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" BackgroundColor="{Binding CharacterItem.Item.Rarity, Converter={StaticResource RarityToColorConverter}}" Padding="2" HorizontalOptions="EndAndExpand" VerticalOptions="Center">
                                     <ContentView BackgroundColor="DarkGray">
                                         <Image Source="{Binding CharacterItem.Item.ImagePath}" HeightRequest="40" WidthRequest="40" >
                                         </Image>
                                     </ContentView>
                                 </ContentView>
-                                <Label Grid.Column="1" Grid.Row="0" Text="{Binding CharacterItem.Item.Name}" LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
-                                <Label Grid.Column="1" Grid.Row="1" Text="{Binding CharacterItem.Item.Description}" LineBreakMode="NoWrap" Style="{DynamicResource ListItemDetailTextStyle}" FontSize="13" />
+                                <StackLayout Orientation="Horizontal" Grid.Column="1" Grid.Row="0" Padding="0" Margin="0">
+                                    <Label Text="{Binding CharacterItem.Item.Name}" LineBreakMode="NoWrap" FontSize="15" />
+                                    <Label Text="{Binding CharacterItem.Level, StringFormat='Lv: {0}'}" LineBreakMode="NoWrap" FontSize="15"/>
+                                </StackLayout>
+                                <Label Grid.Column="1" Grid.Row="1" Text="{Binding CharacterItem.Item.Description}" LineBreakMode="NoWrap" FontSize="13" />
                                 <Button IsVisible="{Binding CanBeEquipped}" Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" Text="EQUIP" FontSize="13" Command="{Binding Source={x:Reference BrowseItemsPage}, Path=BindingContext.EquipItemCommand}" CommandParameter="{Binding .}" />
                                 <Button IsVisible="{Binding CharacterItem.IsEquipped}" Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" Text="EQUIPPED" IsEnabled="False" FontSize="13" />
                             </Grid>

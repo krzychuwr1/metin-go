@@ -60,7 +60,7 @@ namespace MetinGo.ViewModels.Equipment
                     await _itemService.UpdateCharacterItems();
                     Items.Clear();
                     var items = await _itemService.GetCharacterItems();
-                    foreach (var item in items.Where(i => i.CharacterItem.Item.ItemType == ItemType).OrderByDescending(i => i.CharacterItem.IsEquipped))
+                    foreach (var item in items.Where(i => i.CharacterItem.Item.ItemType == ItemType).OrderByDescending(i => i.CharacterItem.IsEquipped).ThenByDescending(i => i.CharacterItem.Item.Rarity).ThenByDescending(i => i.CharacterItem.Level))
                     {
                         Items.Add(item);
                     }
@@ -69,8 +69,8 @@ namespace MetinGo.ViewModels.Equipment
                 {
                     Debug.WriteLine(ex);
                 }
-            }
         }
+    }
 
         public ItemType ItemType { get; set; }
     }

@@ -31,7 +31,7 @@
             </Style>
 
             <converters:BiggerThanZeroConverter x:Key="BiggerThanZeroConverter" />
-
+            <converters:RarityToColorConverter x:Key="RarityToColorConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

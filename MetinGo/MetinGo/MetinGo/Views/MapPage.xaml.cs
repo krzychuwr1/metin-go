@@ -34,6 +34,7 @@ namespace MetinGo.Views
 	    private readonly IPermissionManager _permissionManager;
 	    private List<Item> _items;
 	    private Realm _realm;
+	    private readonly MonsterNameResolver _monsterNameResolver;
 
 	    private MapPageViewModel ViewModel => BindingContext as MapPageViewModel;
 
@@ -44,6 +45,7 @@ namespace MetinGo.Views
 		    _permissionManager = permissionManager;
 		    InitializeComponent();
 			_rand = new Random();
+		    _monsterNameResolver = new MonsterNameResolver();
 		    Map.InfoWindowClicked += Map_InfoWindowClicked;
         }
 
@@ -137,7 +139,7 @@ namespace MetinGo.Views
         {
             if (e.Pin.Tag is Monster monster)
             {
-                var attack = await App.Current.MainPage.DisplayAlert(monster.MonsterType.ToString(), $"Do you want to attack {monster.MonsterType}?", "YES", "NO");
+                var attack = await App.Current.MainPage.DisplayAlert(monster.MonsterType.ToString(), $"Do you want to attack {_monsterNameResolver.GetMonsterName(monster.MonsterType)}?", "YES", "NO");
                 if (attack)
                 {
                     var response = await _apiClient.Post<FightRequest, FightResponse>(new FightRequest() {MonsterId = monster.Id}, Endpoints.Fight);
