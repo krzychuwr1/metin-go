@@ -15,6 +15,7 @@ using MetinGo.Views.Login;
 using Newtonsoft.Json;
 using PCLAppConfig;
 using Realms;
+using Unity;
 using Xamarin.Forms;
 
 namespace MetinGo.Services
@@ -37,6 +38,10 @@ namespace MetinGo.Services
             Realm.GetInstance();
             SetupCulture();
             SetupAppConfig();
+            if (_sessionManager.User?.Id != null && _sessionManager.Character?.Id != null)
+            {
+                await _navigationManager.SetCurrentPage(new NavigationPage(App.Current.Container.Resolve<MapPage>()));
+            }
             if (_sessionManager.User?.Id != null)
             {
                 await _navigationManager.SetCurrentPage<StartPage>();

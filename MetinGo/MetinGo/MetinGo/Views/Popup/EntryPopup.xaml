@@ -5,7 +5,7 @@
              x:Class="MetinGo.Views.Popup.EntryPopup">
     <ContentView x:Name="content">
         <StackLayout BackgroundColor="White" VerticalOptions="Center">
-            <Label x:Name="Label" FontSize="17" BackgroundColor="{StaticResource Accent}" VerticalTextAlignment="Center" HeightRequest="40" TextColor="{StaticResource LightTextColor}" HorizontalTextAlignment="Center" VerticalOptions="Start" />
+            <Label x:Name="Label" FontSize="17" BackgroundColor="{StaticResource Primary}" VerticalTextAlignment="Center" HeightRequest="40" TextColor="White" HorizontalTextAlignment="Center" VerticalOptions="Start" />
             <Entry x:Name="Entry" Margin="30,0,30,0"/>
             <Grid Padding="0, 5, 0, 10">
                 <Grid.ColumnDefinitions>

@@ -6,8 +6,10 @@
 
   <ItemGroup>
     <None Remove="app.config" />
+    <None Remove="Images\Chest.png" />
     <None Remove="Images\Dziki_Pies.png" />
     <None Remove="Images\Glodny_Wilk.png" />
+    <None Remove="Images\Helmet.png" />
     <None Remove="Images\minus.png" />
     <None Remove="Images\ninja.png" />
     <None Remove="Images\plus.png" />
@@ -15,8 +17,10 @@
 
   <ItemGroup>
     <EmbeddedResource Include="app.config" />
+    <EmbeddedResource Include="Images\Chest.png" />
     <EmbeddedResource Include="Images\Dziki_Pies.png" />
     <EmbeddedResource Include="Images\Glodny_Wilk.png" />
+    <EmbeddedResource Include="Images\Helmet.png" />
     <EmbeddedResource Include="Images\minus.png" />
     <EmbeddedResource Include="Images\ninja.png" />
     <EmbeddedResource Include="Images\plus.png" />

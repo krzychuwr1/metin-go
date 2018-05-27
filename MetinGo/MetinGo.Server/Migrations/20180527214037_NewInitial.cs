@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 using System;
 using System.Collections.Generic;
 
@@ -13,8 +12,7 @@ namespace MetinGo.Server.Migrations
                 name: "Items",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<int>(nullable: false),
                     Attack = table.Column<int>(nullable: false),
                     Defence = table.Column<int>(nullable: false),
                     Description = table.Column<string>(nullable: true),
@@ -141,6 +139,7 @@ namespace MetinGo.Server.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     CharacterId = table.Column<Guid>(nullable: true),
                     FightId = table.Column<Guid>(nullable: false),
+                    IsEquipped = table.Column<bool>(nullable: false),
                     ItemId = table.Column<int>(nullable: false),
                     Level = table.Column<int>(nullable: false)
                 },

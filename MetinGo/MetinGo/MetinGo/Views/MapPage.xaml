@@ -7,12 +7,8 @@
              BindingContext="{x:Static viewModelLocator:ViewModelLocator.MapPageViewModel}"
              Title="Map">
     <ContentPage.ToolbarItems>
-        <!--<ToolbarItem x:Name="Sync" Order="Secondary" Text="Sync" BindingContext="{Binding Source={x:Reference Root}, Path=BindingContext}"  Priority="0" Command="{Binding OnSyncCommand}" />
-        <ToolbarItem x:Name="Search" Order="Secondary" Text="Search" BindingContext="{Binding Source={x:Reference Root}, Path=BindingContext}"  Priority="1" Command="{Binding ToggleSearchCommand}" />
-        <ToolbarItem x:Name="Settings" Order="Secondary" Text="Settings" BindingContext="{Binding Source={x:Reference Root}, Path=BindingContext}"  Priority="2" Command="{Binding OnSettingsCommand}" />-->
-        <ToolbarItem Order="Primary" Icon="Character.png" Text="Character" Command="{Binding OpenCharacterStatsCommand}" />
-        <ToolbarItem Order="Primary" Icon="Equipment.png" Text="Equipment" Command="{Binding OpenEquipmentCommand}" />
-        <ToolbarItem Order="Primary" Icon="Training.png" Text="Training" Command="{Binding OpenTrainingCommand}" />
+        <ToolbarItem Order="Primary" Icon="Training.png" Text="Character" Command="{Binding OpenCharacterStatsCommand}" />
+        <ToolbarItem Order="Primary" Icon="Character.png" Text="Equipment" Command="{Binding OpenEquipmentCommand}" />
         <ToolbarItem Order="Primary" Icon="Fight.png" Text="Fights" Command="{Binding OpenFightsCommand}" />
         <ToolbarItem x:Name="Characters" Order="Secondary" Text="Select Character" Command="{Binding OpenCharactersCommand}" />
         <ToolbarItem Order="Secondary" Text="Logout" Command="{Binding LogoutCommand}" />

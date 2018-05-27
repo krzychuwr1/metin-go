@@ -10,7 +10,7 @@ namespace MetinGo.Server.Entities
 {
     public class Item : IItem
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Key]
         public int Id { get; set; }
         public ItemType ItemType { get; set; }

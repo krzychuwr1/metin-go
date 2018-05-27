@@ -13,25 +13,26 @@ namespace MetinGo.Server.Services
     public class LootGenerator : ILootGenerator
     {
         private readonly MetinGoDbContext _db;
-        private readonly TRandom _random;
+        private readonly Random _random;
 
         public LootGenerator(MetinGoDbContext db)
         {
             _db = db;
-            _random = new TRandom();
+            _random = new Random();
         }
 
         public async Task<List<Entities.CharacterItem>> GenerateLoot(Monster monster, Character character)
         {
             var possibleLootItems = await _db.MonsterTypeLoots.Where(l => l.MonsterType == monster.MonsterType).Include(i => i.Item).ToListAsync();
             var generatedItems = new List<Entities.CharacterItem>();
-            foreach (var item in possibleLootItems)
-            {
-                if (_random.NextDouble(0, 1) < (double) item.Probability)
+             foreach (var item in possibleLootItems)
+             {
+                 var result = _random.Next(0, (int)1e6) / 1e6;
+                 if (result < (double) item.Probability)
                 {
                     generatedItems.Add(new Entities.CharacterItem {Item = item.Item, Level = monster.Level});
                 }
-            }
+             }
 
             return generatedItems;
         }

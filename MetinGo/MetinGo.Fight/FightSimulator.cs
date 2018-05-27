@@ -24,7 +24,7 @@ namespace MetinGo.Fight
 
             var playerCoefficient =  Math.Max(1, characterStats.Attack - monsterStats.Defence) / (decimal)monsterStats.MaxHP;
 
-            var monsterCoefficient = Math.Max(1, monsterStats.Attack - characterStats.Defence) / (decimal)characterStats.Defence;
+            var monsterCoefficient = Math.Max(1, monsterStats.Attack - characterStats.Defence) / (decimal)characterStats.MaxHP;
 
             return playerCoefficient >= monsterCoefficient ? new FightResult {PlayerWon = true} : new FightResult {PlayerWon = false};
         }

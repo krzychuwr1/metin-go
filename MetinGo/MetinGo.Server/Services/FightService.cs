@@ -62,7 +62,7 @@ namespace MetinGo.Server.Services
                 {
                     Character = character,
                     Monster = monster,
-                    Experience = _expCalculator.GetLoseExp(monster.MonsterType, character.Level, monster.Level),
+                    Experience = - _expCalculator.GetLoseExp(monster.MonsterType, character.Level, monster.Level),
                     PlayerWon = false
                 };
 

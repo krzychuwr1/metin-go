@@ -103,8 +103,7 @@ namespace MetinGo.Server.Migrations
 
             modelBuilder.Entity("MetinGo.Server.Entities.Item", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id");
 
                     b.Property<int>("Attack");
 

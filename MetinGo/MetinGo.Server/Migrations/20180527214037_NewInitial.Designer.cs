@@ -12,7 +12,7 @@ using System;
 namespace MetinGo.Server.Migrations
 {
     [DbContext(typeof(MetinGoDbContext))]
-    [Migration("20180416203041_NewInitial")]
+    [Migration("20180527214037_NewInitial")]
     partial class NewInitial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -63,6 +63,8 @@ namespace MetinGo.Server.Migrations
 
                     b.Property<Guid>("FightId");
 
+                    b.Property<bool>("IsEquipped");
+
                     b.Property<int>("ItemId");
 
                     b.Property<int>("Level");
@@ -102,8 +104,7 @@ namespace MetinGo.Server.Migrations
 
             modelBuilder.Entity("MetinGo.Server.Entities.Item", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id");
 
                     b.Property<int>("Attack");
 
