@@ -8,6 +8,7 @@ using MetinGo.Server.Infrastructure.Database;
 using MetinGo.Server.Infrastructure.Session;
 using Microsoft.EntityFrameworkCore;
 using Troschuetz.Random;
+using Character = MetinGo.Server.Entities.Character;
 
 namespace MetinGo.Server.Services
 {

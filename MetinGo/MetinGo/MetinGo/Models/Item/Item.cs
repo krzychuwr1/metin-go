@@ -11,7 +11,6 @@ namespace MetinGo.Models.Item
         public int ItemTypeId { get; set; }
         [Ignored]
         public ItemType ItemType => (ItemType) ItemTypeId;
-        public int Level { get; set; }
         public int Attack { get; set; }
         public int Defence { get; set; }
         public int MaxHP { get; set; }

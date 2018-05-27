@@ -44,6 +44,7 @@ namespace MetinGo.Server
             services.AddScoped<IMonsterTypeStatsCalculator, MonsterTypeStatsCalculator>();
             services.AddScoped<IItemWithLevelStatsCalculator, ItemWithLevelStatsCalculator>();
             services.AddScoped<IMonsterExpRewardCalculator, MonsterExpRewardCalculator>();
+            services.AddScoped<ICharacterStatsCalculator, CharacterStatsCalculator>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ICharacterService, CharacterService>();
 	        services.AddScoped<ISessionManager, SessionManager>();

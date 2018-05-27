@@ -4,12 +4,13 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using MetinGo.Common;
 using MetinGo.Server.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 
 namespace MetinGo.Server.Entities
 {
-    public class CharacterItem
+    public class CharacterItem : IItemWithLevel
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
@@ -23,6 +24,8 @@ namespace MetinGo.Server.Entities
         public Guid FightId { get; set; }
         public Fight Fight { get; set; } //fight in which the item has been obtained
         public bool IsEquipped { get; set; }
+        [NotMapped]
+        IItem IItemWithLevel.Item => Item;
 
         public async Task<(Guid EquippedItem, Guid? UnequippedItem)> Equip(MetinGoDbContext db)
         {

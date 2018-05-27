@@ -15,5 +15,7 @@ namespace MetinGo.Common
                 MaxHp = item.MaxHP + level * item.PerLevelMaxHP
             };
         }
+
+        public ItemWithLevelStats Calculate(IItemWithLevel itemWithLevel) => Calculate(itemWithLevel.Item, itemWithLevel.Level);
     }
 }

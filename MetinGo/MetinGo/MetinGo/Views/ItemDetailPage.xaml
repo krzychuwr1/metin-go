@@ -22,7 +22,7 @@
         <StackLayout Grid.Column="1">
             <Label Text="{Binding Item.CharacterItem.Item.Name}" FontSize="Medium"/>
             <Label Text="{Binding Item.CharacterItem.Item.Rarity}" FontSize="Medium"/>
-            <Label Text="{Binding Item.CharacterItem.Item.Level}" FontSize="Medium"/>
+            <Label Text="{Binding Item.CharacterItem.Level}" FontSize="Medium"/>
             <Label Text="{Binding Item.ItemWithLevelStats.Attack}" FontSize="Medium"/>
             <Label Text="{Binding Item.ItemWithLevelStats.Defence}" FontSize="Medium"/>
             <Label Text="{Binding Item.ItemWithLevelStats.MaxHp}" FontSize="Medium"/>

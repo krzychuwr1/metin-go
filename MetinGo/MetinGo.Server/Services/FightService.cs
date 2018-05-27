@@ -8,7 +8,7 @@ using MetinGo.Fight;
 using MetinGo.Server.Entities;
 using MetinGo.Server.Infrastructure.Database;
 using MetinGo.Server.Infrastructure.Session;
-using Character = MetinGo.Fight.Model.Character;
+using Microsoft.EntityFrameworkCore;
 
 namespace MetinGo.Server.Services
 {
@@ -36,8 +36,8 @@ namespace MetinGo.Server.Services
             var monster = await _db.FindAsync<Monster>(monsterId);
 
             var character = _sessionManager.CurrentCharacter;
-
-            var result =_simulator.Fight(_mapper.Map<Character>(character), _mapper.Map<Fight.Model.Monster>(monster));
+            var characterItems = _db.Entry(_sessionManager.CurrentCharacter).Collection(c => c.CharacterItems).Query().Include(c => c.Item).ToList();
+            var result =_simulator.Fight(_mapper.Map<Common.Character>(character), _mapper.Map<Fight.Model.Monster>(monster), characterItems);
 
             Entities.Fight fight = null;
 

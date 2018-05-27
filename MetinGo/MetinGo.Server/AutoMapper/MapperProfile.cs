@@ -16,7 +16,7 @@ namespace MetinGo.Server.AutoMapper
             CreateMap<Item, ApiModel.Item.Item>();
             CreateMap<CharacterItem, ApiModel.Item.CharacterItem>();
 
-            CreateMap<Character, Fight.Model.Character>();
+            CreateMap<Character, Common.Character>();
             CreateMap<Monster, Fight.Model.Monster>();
         }
     }
