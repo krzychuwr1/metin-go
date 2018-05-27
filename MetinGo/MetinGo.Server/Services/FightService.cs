@@ -36,7 +36,7 @@ namespace MetinGo.Server.Services
             var monster = await _db.FindAsync<Monster>(monsterId);
 
             var character = _sessionManager.CurrentCharacter;
-            var characterItems = _db.Entry(_sessionManager.CurrentCharacter).Collection(c => c.CharacterItems).Query().Include(c => c.Item).ToList();
+            var characterItems = _db.Entry(_sessionManager.CurrentCharacter).Collection(c => c.CharacterItems).Query().Where(c => c.IsEquipped).Include(c => c.Item).ToList();
             var result =_simulator.Fight(_mapper.Map<Common.Character>(character), _mapper.Map<Fight.Model.Monster>(monster), characterItems);
 
             Entities.Fight fight = null;
