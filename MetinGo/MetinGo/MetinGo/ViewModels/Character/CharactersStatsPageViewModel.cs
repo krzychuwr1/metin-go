@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Windows.Input;
 using MetinGo.ApiModel;
 using MetinGo.ApiModel.CharacterStats;
+using MetinGo.Common;
 using MetinGo.Infrastructure.RestApi;
 using MetinGo.Infrastructure.Session;
 using MetinGo.Views.Popup;
+using Realms;
 using Xamarin.Forms;
 
 namespace MetinGo.ViewModels.Character
@@ -15,6 +18,7 @@ namespace MetinGo.ViewModels.Character
     {
         private readonly ISessionManager _sessionManager;
         private readonly IApiClient _apiClient;
+        private readonly IItemWithLevelStatsCalculator _itemWithLevelStatsCalculator;
         private int _availablePoints;
         private int _hp;
         private int _attack;
@@ -23,16 +27,29 @@ namespace MetinGo.ViewModels.Character
         private int _spentHpPoints;
         private int _spentAttackPoints;
         private int _spentDefencePoints;
+        private int _itemsAttack;
+        private int _itemsDefence;
+        private int _itemsMaxHP;
+        private int _hpWithItems;
+        private int _attackWithItems;
+        private int _defenceWithItems;
 
-        public CharactersStatsPageViewModel(ISessionManager sessionManager, IApiClient apiClient)
+        public CharactersStatsPageViewModel(ISessionManager sessionManager, IApiClient apiClient, IItemWithLevelStatsCalculator itemWithLevelStatsCalculator)
         {
             _sessionManager = sessionManager;
             _apiClient = apiClient;
+            _itemWithLevelStatsCalculator = itemWithLevelStatsCalculator;
             ChangeAttackPointCommand = new Command<int>(ChangeAttackPoint);
             ChangeDefencePointCommand = new Command<int>(ChangeDefencePoint);
             ChangeHpPointCommand = new Command<int>(ChangeHpPoint);
-            InitCharacter();
             SaveChangesCommand = new Command(SaveChanges);
+            var db = Realm.GetInstance();
+            var characterItems = db.All<Models.Item.CharacterItem>().Where(c => c.IsEquipped).ToList();
+            var stats = characterItems.Select(i => _itemWithLevelStatsCalculator.Calculate(i)).ToList();
+            _itemsAttack = stats.Sum(s => s.Attack);
+            _itemsDefence = stats.Sum(s => s.Defence);
+            _itemsMaxHP = stats.Sum(s => s.MaxHp);
+            InitCharacter();
         }
 
         private void InitCharacter()
@@ -73,6 +90,7 @@ namespace MetinGo.ViewModels.Character
             set
             {
                 _hp = value;
+                HPWithItems = _hp + _itemsMaxHP;
                 OnPropertyChanged();
             }
         }
@@ -83,6 +101,7 @@ namespace MetinGo.ViewModels.Character
             set
             {
                 _attack = value;
+                AttackWithItems = _attack + _itemsAttack;
                 OnPropertyChanged();
             }
         }
@@ -93,6 +112,7 @@ namespace MetinGo.ViewModels.Character
             set
             {
                 _defence = value;
+                DefenceWithItems = _defence + _defenceWithItems;
                 OnPropertyChanged();
             }
         }
@@ -175,5 +195,35 @@ namespace MetinGo.ViewModels.Character
         }
 
         public ICommand SaveChangesCommand { get; }
+
+        public int HPWithItems
+        {
+            get => _hpWithItems;
+            set
+            {
+                _hpWithItems = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int AttackWithItems
+        {
+            get => _attackWithItems;
+            set
+            {
+                _attackWithItems = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int DefenceWithItems
+        {
+            get => _defenceWithItems;
+            set
+            {
+                _defenceWithItems = value;
+                OnPropertyChanged();
+            }
+        }
     }
 }

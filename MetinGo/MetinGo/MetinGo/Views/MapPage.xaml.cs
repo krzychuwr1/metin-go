@@ -46,15 +46,14 @@ namespace MetinGo.Views
 		    InitializeComponent();
 			_rand = new Random();
 		    _monsterNameResolver = new MonsterNameResolver();
-		    Map.InfoWindowClicked += Map_InfoWindowClicked;
+		    Ma.InfoWindowClicked += Map_InfoWindowClicked;
         }
 
         protected override async void OnAppearing()
         {
             await _permissionManager.CheckAndAskIfNeeded("Location Permission is needed to play", "Cannot play without permission", Permission.Location);
             base.OnAppearing();
-            Map.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(_sessionManager.Latitude ?? 0, _sessionManager.Longitude ?? 0), new Distance(100)));
-            Map.MyLocationEnabled = true;
+            Ma.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(_sessionManager.Latitude ?? 0, _sessionManager.Longitude ?? 0), new Distance(100)));
 
             if (_items == null)
             {
@@ -67,13 +66,15 @@ namespace MetinGo.Views
                 var position = await CrossGeolocator.Current.GetPositionAsync(TimeSpan.FromSeconds(300));
                 _sessionManager.Latitude = position.Latitude;
                 _sessionManager.Longitude = position.Longitude;
-                Map.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(position.Latitude, position.Longitude), new Distance(100)));
+                Ma.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(position.Latitude, position.Longitude), new Distance(100)));
                 var monsters = await _apiClient.Get<List<Monster>>(Endpoints.Monster);
-                Map.Pins.Clear();
+                Ma.Pins.Clear();
+                Ma.Circles.Clear();
                 foreach (var monster in monsters)
                 {
                     AddMonster(monster);
                 }
+                AddMe(new Position(position.Latitude, position.Longitude));
 
                 var players = await _apiClient.Get<List<ApiModel.Character.Character>>(Endpoints.NearbyCharacters);
                 foreach (var player in players.Where(p => p.Id != _sessionManager.Character.Id))
@@ -87,11 +88,11 @@ namespace MetinGo.Views
 	    private void AddPlayer(ApiModel.Character.Character player)
 	    {
 	        var assembly = typeof(MapPage).GetTypeInfo().Assembly;
-	        var stream = assembly.GetManifestResourceStream("MetinGo.Images.ninja.png");
+	        var stream = assembly.GetManifestResourceStream("MetinGo.Images.ninjaSmall.png");
 	        var icon = BitmapDescriptorFactory.FromStream(stream);
 
 	        var monsterPosition = new Position(player.Latitude, player.Longitude);
-	        Map.Pins.Add(
+	        Ma.Pins.Add(
 	            new Pin
 	            {
 	                Tag = player,
@@ -102,6 +103,30 @@ namespace MetinGo.Views
 	            });
         }
 
+	    private void AddMe(Position position)
+	    {
+	        var assembly = typeof(MapPage).GetTypeInfo().Assembly;
+	        var stream = assembly.GetManifestResourceStream("MetinGo.Images.ninjaSmall.png");
+	        var icon = BitmapDescriptorFactory.FromStream(stream);
+
+	        Ma.Pins.Add(
+	            new Pin
+	            {
+	                Label = $"{_sessionManager.Character.Name} lv:{_sessionManager.Character.Level} (me)",
+	                Position = position,
+	                IsVisible = true,
+	                Icon = icon
+	            });
+	        Ma.Circles.Add(
+	            new Circle()
+	            {
+                    Center = position,
+                    Radius = Distance.FromKilometers(0.1),
+                    FillColor = Color.FromRgba(0, 0, 255, 32),
+                    ZIndex = 0
+	            });
+	    }
+
 	    private void AddMonster(Monster monster)
 	    {
 	        var assembly = typeof(MapPage).GetTypeInfo().Assembly;
@@ -111,7 +136,7 @@ namespace MetinGo.Views
 	        var monsterPosition = new Position(monster.Latitude, monster.Longitude);
             if (monster.MonsterType == MonsterType.WildDog)
 	        {
-	            Map.Pins.Add(
+	            Ma.Pins.Add(
 	                new Pin
 	                {
 	                    Tag = monster,
@@ -123,7 +148,7 @@ namespace MetinGo.Views
             }
             else
             {
-                Map.Pins.Add(
+                Ma.Pins.Add(
                     new Pin
                     {
                         Tag = monster,
@@ -139,6 +164,16 @@ namespace MetinGo.Views
         {
             if (e.Pin.Tag is Monster monster)
             {
+                var latitudeDifferenceKm = (monster.Latitude - _sessionManager.Latitude) * 111;
+                var longitudeDifferenceKm = (monster.Longitude - _sessionManager.Longitude) * 68;
+                var distance = Math.Sqrt((double) (latitudeDifferenceKm*latitudeDifferenceKm + longitudeDifferenceKm * longitudeDifferenceKm));
+
+                if (distance > 0.1)
+                {
+                    await App.Current.MainPage.DisplayAlert("Too far", $"The enemy is too far", "OK");
+                    return;
+                }
+
                 var attack = await App.Current.MainPage.DisplayAlert(monster.MonsterType.ToString(), $"Do you want to attack {_monsterNameResolver.GetMonsterName(monster.MonsterType)}?", "YES", "NO");
                 if (attack)
                 {
@@ -161,7 +196,7 @@ namespace MetinGo.Views
                                 _realm.Write(() => _realm.Add(new CharacterItem{CharacterId = _sessionManager.Character.Id.ToString(), Id = characterItem.Id.ToString(), Item = item, Level = characterItem.Level}));
                             }
                         }
-                        Map.Pins.Remove(e.Pin);
+                        Ma.Pins.Remove(e.Pin);
                     }
                     else
                     {

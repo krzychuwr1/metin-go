@@ -12,6 +12,7 @@
     <None Remove="Images\Helmet.png" />
     <None Remove="Images\minus.png" />
     <None Remove="Images\ninja.png" />
+    <None Remove="Images\ninjaSmall.png" />
     <None Remove="Images\plus.png" />
   </ItemGroup>
 
@@ -22,6 +23,7 @@
     <EmbeddedResource Include="Images\Glodny_Wilk.png" />
     <EmbeddedResource Include="Images\Helmet.png" />
     <EmbeddedResource Include="Images\minus.png" />
+    <EmbeddedResource Include="Images\ninjaSmall.png" />
     <EmbeddedResource Include="Images\ninja.png" />
     <EmbeddedResource Include="Images\plus.png" />
   </ItemGroup>

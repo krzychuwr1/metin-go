@@ -25,7 +25,7 @@
                 <Label Text="{Binding Level, StringFormat='Level: {0}'}" FontAttributes="Bold" Grid.Column="1" HorizontalOptions="Center" />
                 <Label Text="{Binding Experience, StringFormat='Experience: {0}'}" FontAttributes="Bold" Grid.Column="2" HorizontalOptions="Center" />
             </Grid>
-            <googleMaps:Map x:Name="Map"></googleMaps:Map>
+            <googleMaps:Map x:Name="Ma"></googleMaps:Map>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

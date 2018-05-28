@@ -29,7 +29,7 @@ namespace MetinGo.Server.Services
             var character = _sessionManager.CurrentCharacter;
             var monstersCount = await _db.Monsters.Where(m => 
                     Math.Abs(m.Latitude - character.Latitude) < 0.001 && 
-                    Math.Abs(m.Longitude - character.Longitude) < 0.001 && 
+                    Math.Abs(m.Longitude - character.Longitude) < 0.0015 && 
                     Math.Abs(m.Level - character.Level) < 5 && m.IsAlive)
                 .CountAsync();
 
@@ -39,7 +39,7 @@ namespace MetinGo.Server.Services
 
             return await _db.Monsters.Where(m =>
                 Math.Abs(m.Latitude - character.Latitude) < 0.001 &&
-                Math.Abs(m.Longitude - character.Longitude) < 0.001 &&
+                Math.Abs(m.Longitude - character.Longitude) < 0.0015 &&
                 Math.Abs(m.Level - character.Level) < 5 && m.IsAlive).ToListAsync();
         }
 
@@ -51,8 +51,8 @@ namespace MetinGo.Server.Services
             {
                 var monster = new Monster
                 {
-                    Level  = Math.Max(1, character.Level + _random.Next(-2, 2)),
-                    Longitude = character.Longitude + _random.NextDouble(-0.001, 0.001),
+                    Level  = Math.Max(1, character.Level + _random.Next(-2, 4)),
+                    Longitude = character.Longitude + _random.NextDouble(-0.0015, 0.0015),
                     Latitude = character.Latitude + _random.NextDouble(-0.001, 0.001),
                     IsAlive = true,
                     MonsterType = (MonsterType)_random.Next(1, monsterTypesCount + 1)
