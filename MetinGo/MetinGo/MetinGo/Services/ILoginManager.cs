@@ -54,20 +54,21 @@ namespace MetinGo.Services
                 if (!characters.Any())
                 {
                     await _navigationManager.SetCurrentPage<StartPage>();
-                    EntryPopup entryPopup = new EntryPopup("Provide character name");
-                    entryPopup.OkAction = async result =>
-                    {
-                        await _apiClient.Post(new CreateCharacterRequest {Name = result}, Endpoints.Character);
-                        await _navigationManager.CurrentPage.DisplayAlert("Character created",
-                            "Character created", "OK");
+                    await _apiClient.Post(new CreateCharacterRequest { Name = _sessionManager.User.Name }, Endpoints.Character);
+                    await _navigationManager.CurrentPage.DisplayAlert("Character created",
+                        "Character created", "OK");
 
-                        characters = await _apiClient.Get<List<Character>>(Endpoints.Character);
-                        var character = characters[0];
-                        _sessionManager.Character = new Models.Character.Character { Id = character.Id, Name = character.Name, Level = character.Level, Experience = character.Experience, BaseAttack = character.BaseAttack, BaseDefence = character.BaseDefence, BaseMaxHP = character.BaseMaxHP, StatPoints = character.StatPoints};
-                        await _navigationManager.SetCurrentPage(new NavigationPage(App.Current.Container.Resolve<MapPage>()));
-                        await PopupNavigation.PopAsync(true);
-                    };
-                    await PopupNavigation.PushAsync(entryPopup);
+                    characters = await _apiClient.Get<List<Character>>(Endpoints.Character);
+                    var character = characters[0];
+                    _sessionManager.Character = new Models.Character.Character { Id = character.Id, Name = character.Name, Level = character.Level, Experience = character.Experience, BaseAttack = character.BaseAttack, BaseDefence = character.BaseDefence, BaseMaxHP = character.BaseMaxHP, StatPoints = character.StatPoints };
+                    await _navigationManager.SetCurrentPage(new NavigationPage(App.Current.Container.Resolve<MapPage>()));
+
+                    //EntryPopup entryPopup = new EntryPopup("Provide character name");
+                    //entryPopup.OkAction = async result =>
+                    //{                        await PopupNavigation.RemovePageAsync(entryPopup);
+
+                    //};
+                    //Xamarin.Forms.Device.BeginInvokeOnMainThread(() => PopupNavigation.PushAsync(entryPopup)); 
                 }
                 else
                 {

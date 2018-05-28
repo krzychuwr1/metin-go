@@ -25,9 +25,9 @@ namespace MetinGo.Views.Popup
                 await PopupNavigation.PushAsync(this);
         }
         
-        public void Dispose()
+        public async void Dispose()
         {
-            PopupNavigation.PopAsync(true);
+            await PopupNavigation.PopAsync(true);
         }
 
     }

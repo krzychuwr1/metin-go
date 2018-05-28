@@ -62,9 +62,9 @@ namespace MetinGo.ViewModels.Character
 
         private async void SaveChanges()
         {
-            using (var indicator = new ActionActivityIndicator("Saving..."))
-            {
-                await indicator.Show();
+            //using (var indicator = new ActionActivityIndicator("Saving..."))
+            //{
+            //    await indicator.Show();
                 var character = await _apiClient.Post<IncreaseStatsRequest, ApiModel.Character.Character>(new IncreaseStatsRequest()
                 {
                     Attack = SpentAttackPoints,
@@ -81,7 +81,7 @@ namespace MetinGo.ViewModels.Character
                 SpentHpPoints = 0;
                 _sessionManager.Character = localCharacter;
                 InitCharacter();
-            }
+            //}
         }
 
         public int HP

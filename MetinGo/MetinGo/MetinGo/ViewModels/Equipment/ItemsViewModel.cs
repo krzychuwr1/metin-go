@@ -52,9 +52,9 @@ namespace MetinGo.ViewModels.Equipment
 
         private async Task LoadItems()
         {
-            using (var indicator = new ActionActivityIndicator("Loading items.."))
-            {
-                await indicator.Show();
+            //using (var indicator = new ActionActivityIndicator("Loading items.."))
+            //{
+                //await indicator.Show();
                 try
                 {
                     await _itemService.UpdateCharacterItems();
@@ -69,8 +69,8 @@ namespace MetinGo.ViewModels.Equipment
                 {
                     Debug.WriteLine(ex);
                 }
+            //}
         }
-    }
 
         public ItemType ItemType { get; set; }
     }
